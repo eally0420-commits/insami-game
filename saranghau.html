@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#8B1A1A" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="사랑하우" />
+  <link rel="manifest" href="manifest.json" />
+  <title>사랑하우 정육 - 사랑을 담은 한우</title>
+  <style>
+    :root {
+      --primary: #8B1A1A;
+      --primary-dark: #6B1010;
+      --primary-light: #B22222;
+      --gold: #C9A227;
+      --gold-light: #E8C84A;
+      --cream: #FFFAF4;
+      --warm-white: #FFF5EC;
+      --card: #FFFFFF;
+      --text-dark: #1A0A00;
+      --text-mid: #5C3D2E;
+      --text-light: #9E7F6E;
+      --border: #EDD9C8;
+      --shadow: rgba(139, 26, 26, 0.12);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', BlinkMacSystemFont, sans-serif;
+      background: var(--cream);
+      color: var(--text-dark);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── TOP HEADER ─── */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--primary);
+      padding: 14px 20px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+    .app-header .logo-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      line-height: 1;
+    }
+    .app-header .logo-kr {
+      font-size: 22px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: 3px;
+    }
+    .app-header .logo-slogan {
+      font-size: 11px;
+      color: var(--gold-light);
+      letter-spacing: 2px;
+      margin-top: 3px;
+    }
+
+    /* ─── BOTTOM NAV ─── */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: #FFFFFF;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 4px 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+      border: none;
+      background: none;
+      gap: 4px;
+    }
+    .nav-item:active { background: var(--warm-white); }
+    .nav-icon { font-size: 22px; line-height: 1; }
+    .nav-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-light);
+      letter-spacing: 0.5px;
+    }
+    .nav-item.active .nav-icon { filter: none; }
+    .nav-item.active .nav-label { color: var(--primary); }
+    .nav-item.active .nav-dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--primary);
+      margin-top: 2px;
+    }
+
+    /* ─── SCROLL AREA ─── */
+    .pages-wrap {
+      padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+    }
+
+    /* ─── PAGE ─── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ═══════════════════════════════
+       PAGE 1 · HOME
+    ═══════════════════════════════ */
+    .hero {
+      background: linear-gradient(160deg, var(--primary-dark) 0%, var(--primary) 50%, #A52020 100%);
+      padding: 36px 24px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='28'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 11px;
+      color: var(--gold-light);
+      letter-spacing: 2px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      backdrop-filter: blur(4px);
+    }
+    .hero-title {
+      font-size: 36px;
+      font-weight: 900;
+      color: #FFFFFF;
+      letter-spacing: 2px;
+      line-height: 1.1;
+      position: relative;
+    }
+    .hero-title span { color: var(--gold-light); }
+    .hero-subtitle {
+      font-size: 15px;
+      color: rgba(255,255,255,0.8);
+      margin-top: 10px;
+      line-height: 1.6;
+      position: relative;
+    }
+    .hero-cta {
+      margin-top: 28px;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      position: relative;
+    }
+    .btn-primary {
+      background: #FFFFFF;
+      color: var(--primary);
+      border: none;
+      border-radius: 50px;
+      padding: 14px 28px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: transform 0.15s, box-shadow 0.15s;
+      letter-spacing: 0.5px;
+    }
+    .btn-primary:active { transform: scale(0.97); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+    .btn-outline {
+      background: transparent;
+      color: #FFFFFF;
+      border: 2px solid rgba(255,255,255,0.7);
+      border-radius: 50px;
+      padding: 12px 22px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-outline:active { background: rgba(255,255,255,0.1); }
+
+    .section { padding: 24px 16px; }
+    .section-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+      letter-spacing: -0.3px;
+    }
+    .section-subtitle {
+      font-size: 13px;
+      color: var(--text-light);
+      margin-bottom: 16px;
+    }
+
+    /* Product Cards on Home */
+    .product-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      scrollbar-width: none;
+    }
+    .product-scroll::-webkit-scrollbar { display: none; }
+    .product-card-sm {
+      flex: 0 0 140px;
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 2px 12px var(--shadow);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .product-card-sm:active { transform: scale(0.97); }
+    .product-img-sm {
+      width: 100%;
+      height: 90px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #FFF0E8, #FFD9C0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+    }
+    .product-info-sm {
+      padding: 10px 12px 12px;
+    }
+    .product-name-sm {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.3;
+    }
+    .product-grade {
+      font-size: 11px;
+      color: var(--gold);
+      font-weight: 700;
+      margin-top: 2px;
+    }
+    .product-price {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-top: 4px;
+    }
+
+    /* Notice Banner */
+    .notice-banner {
+      margin: 0 16px 16px;
+      background: linear-gradient(135deg, #FFF8EC, #FFF3E0);
+      border: 1px solid #FFDAB9;
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .notice-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+    .notice-title { font-size: 13px; font-weight: 700; color: var(--primary); }
+    .notice-text { font-size: 12px; color: var(--text-mid); margin-top: 3px; line-height: 1.5; }
+
+    /* Quick Links */
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 0 16px 8px;
+    }
+    .quick-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 18px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 10px var(--shadow);
+      cursor: pointer;
+      transition: transform 0.15s;
+      text-decoration: none;
+    }
+    .quick-card:active { transform: scale(0.97); }
+    .quick-icon { font-size: 28px; }
+    .quick-text-label { font-size: 13px; font-weight: 800; color: var(--text-dark); }
+    .quick-text-sub { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+
+    /* ═══════════════════════════════
+       PAGE 2 · PICKUP ORDER
+    ═══════════════════════════════ */
+    .order-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      padding: 20px 20px 24px;
+      color: white;
+    }
+    .order-header h2 { font-size: 22px; font-weight: 800; }
+    .order-header p { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+
+    .step-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 16px 20px 12px;
+      background: #FFF;
+      border-bottom: 1px solid var(--border);
+    }
+    .step-dot {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800;
+      background: var(--border);
+      color: var(--text-light);
+      transition: all 0.3s;
+    }
+    .step-dot.active { background: var(--primary); color: white; }
+    .step-dot.done { background: var(--gold); color: white; }
+    .step-line { flex: 1; height: 2px; background: var(--border); max-width: 40px; }
+    .step-line.done { background: var(--gold); }
+
+    .order-step { display: none; }
+    .order-step.active { display: block; }
+
+    /* Product Selection */
+    .product-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 16px;
+    }
+    .product-row {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+    .product-emoji { font-size: 36px; flex-shrink: 0; }
+    .product-detail { flex: 1; min-width: 0; }
+    .product-name { font-size: 14px; font-weight: 800; color: var(--text-dark); }
+    .product-desc { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+    .product-price-row { font-size: 13px; font-weight: 800; color: var(--primary); margin-top: 4px; }
+    .qty-control {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .qty-btn {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+      background: none;
+      color: var(--primary);
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+      line-height: 1;
+    }
+    .qty-btn:active { background: var(--primary); color: white; }
+    .qty-num {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-dark);
+      min-width: 20px;
+      text-align: center;
+    }
+
+    /* Cart summary bar */
+    .cart-bar {
+      position: sticky;
+      bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+      background: var(--primary);
+      color: white;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 -4px 20px rgba(139,26,26,0.3);
+      cursor: pointer;
+    }
+    .cart-bar-left { font-size: 14px; font-weight: 700; }
+    .cart-bar-right {
+      background: white;
+      color: var(--primary);
+      border: none;
+      border-radius: 50px;
+      padding: 8px 20px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* Date/Time Selection */
+    .datetime-section { padding: 16px; }
+    .field-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-mid);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .field-label span { color: var(--primary); }
+    .date-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .date-chip {
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 4px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      background: white;
+    }
+    .date-chip.selected { border-color: var(--primary); background: var(--primary); }
+    .date-chip .day-name { font-size: 11px; color: var(--text-light); }
+    .date-chip .day-num { font-size: 18px; font-weight: 800; color: var(--text-dark); margin-top: 2px; }
+    .date-chip.selected .day-name,
+    .date-chip.selected .day-num { color: white; }
+    .date-chip.sunday .day-num { color: #CC0000; }
+    .date-chip.saturday .day-num { color: #0055CC; }
+    .date-chip.selected .day-num { color: white; }
+
+    .time-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .time-chip {
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 8px;
+      text-align: center;
+      cursor: pointer;
+      background: white;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-dark);
+      transition: all 0.15s;
+    }
+    .time-chip.selected { border-color: var(--primary); background: var(--primary); color: white; }
+    .time-chip.disabled { opacity: 0.35; pointer-events: none; background: #F5F5F5; }
+
+    /* Customer Info */
+    .info-section { padding: 16px; }
+    .input-group { margin-bottom: 16px; }
+    .input-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-mid);
+      margin-bottom: 6px;
+    }
+    .input-label .req { color: var(--primary); }
+    .form-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 15px;
+      color: var(--text-dark);
+      background: white;
+      outline: none;
+      transition: border-color 0.2s;
+      font-family: inherit;
+    }
+    .form-input:focus { border-color: var(--primary); }
+    .form-textarea {
+      resize: none;
+      height: 80px;
+      line-height: 1.5;
+    }
+
+    /* Order Confirm */
+    .confirm-section { padding: 16px; }
+    .confirm-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: 0 2px 10px var(--shadow);
+      margin-bottom: 14px;
+    }
+    .confirm-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-mid);
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .confirm-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 6px 0;
+      font-size: 14px;
+    }
+    .confirm-row .label { color: var(--text-light); flex-shrink: 0; }
+    .confirm-row .value { font-weight: 700; color: var(--text-dark); text-align: right; }
+    .confirm-total {
+      border-top: 2px solid var(--border);
+      margin-top: 8px;
+      padding-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .confirm-total .label { font-size: 15px; font-weight: 800; color: var(--text-dark); }
+    .confirm-total .value { font-size: 18px; font-weight: 900; color: var(--primary); }
+
+    .confirm-note {
+      background: #FFF8EC;
+      border: 1px solid #FFD9A0;
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      font-size: 12px;
+      color: #7A5200;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: transform 0.15s, background 0.2s;
+      box-shadow: 0 4px 15px rgba(139,26,26,0.35);
+    }
+    .btn-submit:active { transform: scale(0.98); background: var(--primary-dark); }
+
+    /* Step nav buttons */
+    .step-nav {
+      display: flex;
+      gap: 10px;
+      padding: 12px 16px 16px;
+    }
+    .btn-back {
+      flex: 1;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 50px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-mid);
+      cursor: pointer;
+    }
+    .btn-next {
+      flex: 2;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(139,26,26,0.3);
+    }
+    .btn-next:active { background: var(--primary-dark); }
+
+    /* Success Screen */
+    .success-screen {
+      display: none;
+      padding: 40px 24px;
+      text-align: center;
+    }
+    .success-screen.show { display: block; }
+    .success-icon { font-size: 72px; margin-bottom: 20px; }
+    .success-title { font-size: 24px; font-weight: 900; color: var(--primary); margin-bottom: 10px; }
+    .success-sub { font-size: 14px; color: var(--text-mid); line-height: 1.7; margin-bottom: 30px; }
+    .success-num {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .success-num .label { font-size: 12px; opacity: 0.8; margin-bottom: 4px; }
+    .success-num .num { font-size: 28px; font-weight: 900; letter-spacing: 4px; }
+    .btn-new-order {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 15px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-bottom: 12px;
+    }
+    .btn-kakao {
+      width: 100%;
+      background: #FEE500;
+      color: #191919;
+      border: none;
+      border-radius: 50px;
+      padding: 15px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    /* ═══════════════════════════════
+       PAGE 3 · STORE INFO
+    ═══════════════════════════════ */
+    .info-hero {
+      background: linear-gradient(160deg, var(--primary-dark), var(--primary));
+      padding: 28px 20px 32px;
+      color: white;
+      text-align: center;
+    }
+    .info-hero h2 { font-size: 22px; font-weight: 900; letter-spacing: 1px; }
+    .info-hero p { font-size: 13px; opacity: 0.8; margin-top: 6px; }
+
+    .info-cards { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+    .info-card {
+      background: white;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 2px 10px var(--shadow);
+    }
+    .info-card-header {
+      background: linear-gradient(135deg, #FFF5EC, #FFE8D5);
+      padding: 14px 16px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .info-card-header .ic { font-size: 22px; }
+    .info-card-header .title { font-size: 14px; font-weight: 800; color: var(--primary); }
+    .info-card-body { padding: 14px 16px; }
+    .info-line {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .info-line:last-child { border-bottom: none; }
+    .info-line .lkey { font-size: 13px; color: var(--text-light); width: 52px; flex-shrink: 0; font-weight: 600; }
+    .info-line .lval { font-size: 13px; color: var(--text-dark); font-weight: 700; line-height: 1.5; }
+    .lval a { color: var(--primary); text-decoration: none; }
+
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-row .day { color: var(--text-mid); font-weight: 700; width: 60px; }
+    .hours-row .time { color: var(--text-dark); font-weight: 700; }
+    .hours-row .closed { color: #CC0000; font-weight: 700; }
+    .hours-row.today .day { color: var(--primary); }
+    .hours-row.today .time { color: var(--primary); }
+    .today-badge {
+      background: var(--primary);
+      color: white;
+      border-radius: 10px;
+      padding: 2px 8px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .map-placeholder {
+      margin: 0 16px 16px;
+      background: linear-gradient(135deg, #F0F0F0, #E0E0E0);
+      border-radius: var(--radius);
+      height: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 2px 10px var(--shadow);
+    }
+    .map-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #E8F4E8, #C8E6C9);
+    }
+    .map-inner { position: relative; text-align: center; }
+    .map-inner .map-icon { font-size: 40px; }
+    .map-inner .map-text { font-size: 14px; font-weight: 700; color: #2E7D32; margin-top: 4px; }
+    .map-inner .map-sub { font-size: 12px; color: #558B2F; }
+
+    /* ═══════════════════════════════
+       PAGE 4 · LINKS
+    ═══════════════════════════════ */
+    .links-hero {
+      background: linear-gradient(160deg, var(--primary-dark), var(--primary));
+      padding: 28px 20px 32px;
+      text-align: center;
+      color: white;
+    }
+    .links-hero h2 { font-size: 22px; font-weight: 900; }
+    .links-hero p { font-size: 13px; opacity: 0.8; margin-top: 6px; line-height: 1.5; }
+
+    .links-list { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+    .link-card {
+      background: white;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 2px 10px var(--shadow);
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .link-card:active { transform: scale(0.98); }
+    .link-card-color {
+      width: 64px;
+      flex-shrink: 0;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+    }
+    .link-card-body { flex: 1; padding: 16px; }
+    .link-card-name { font-size: 16px; font-weight: 800; color: var(--text-dark); }
+    .link-card-desc { font-size: 12px; color: var(--text-light); margin-top: 3px; }
+    .link-card-arrow { padding-right: 16px; font-size: 20px; color: var(--text-light); }
+
+    .lc-naver { background: #03C75A; }
+    .lc-insta { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+    .lc-kakao { background: #FEE500; }
+    .lc-phone { background: linear-gradient(135deg, var(--primary), var(--primary-light)); }
+
+    .lc-insta .link-card-name,
+    .lc-phone .link-card-name { color: var(--text-dark); }
+
+    /* Contact section */
+    .contact-direct {
+      margin: 0 16px 16px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      border-radius: var(--radius);
+      padding: 20px;
+      text-align: center;
+      color: white;
+    }
+    .contact-direct .ct-label { font-size: 13px; opacity: 0.8; margin-bottom: 6px; }
+    .contact-direct .ct-num {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+    .contact-direct .ct-sub { font-size: 11px; opacity: 0.7; margin-top: 6px; }
+    .btn-call {
+      display: block;
+      margin-top: 14px;
+      background: white;
+      color: var(--primary);
+      border-radius: 50px;
+      padding: 12px;
+      font-size: 15px;
+      font-weight: 800;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    /* Shared misc */
+    .divider { height: 8px; background: var(--warm-white); }
+    .gold-line {
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+    }
+  </style>
+</head>
+<body>
+
+<!-- APP HEADER -->
+<header class="app-header">
+  <div class="logo-wrap">
+    <div class="logo-kr">사랑하우</div>
+    <div class="logo-slogan">사랑을 담은 한우</div>
+  </div>
+</header>
+
+<div class="pages-wrap">
+
+  <!-- ══════════════════════════════════════
+       PAGE 1 · HOME
+  ══════════════════════════════════════ -->
+  <div class="page active" id="page-home">
+
+    <div class="hero">
+      <div class="hero-badge">🥩 프리미엄 한우 전문점</div>
+      <div class="hero-title">사랑<span>하우</span></div>
+      <div class="hero-subtitle">사랑을 담아 고른 최상급 한우<br>직접 픽업하고 더 신선하게</div>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="goPage('order')">픽업 주문하기</button>
+        <button class="btn-outline" onclick="goPage('info')">매장 정보</button>
+      </div>
+    </div>
+
+    <div class="gold-line"></div>
+
+    <div class="notice-banner">
+      <div class="notice-icon">📢</div>
+      <div>
+        <div class="notice-title">픽업 서비스 안내</div>
+        <div class="notice-text">주문 후 매장에서 직접 수령하시면 신선한 상태로 받으실 수 있어요. 픽업 1시간 전까지 주문이 가능합니다.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">인기 상품</div>
+      <div class="section-subtitle">오늘의 추천 신선 한우</div>
+      <div class="product-scroll">
+        <div class="product-card-sm" onclick="goPage('order')">
+          <div class="product-img-sm">🥩</div>
+          <div class="product-info-sm">
+            <div class="product-name-sm">한우 등심</div>
+            <div class="product-grade">1++ 등급</div>
+            <div class="product-price">문의 주세요</div>
+          </div>
+        </div>
+        <div class="product-card-sm" onclick="goPage('order')">
+          <div class="product-img-sm">🍖</div>
+          <div class="product-info-sm">
+            <div class="product-name-sm">한우 갈비</div>
+            <div class="product-grade">1+ 등급</div>
+            <div class="product-price">문의 주세요</div>
+          </div>
+        </div>
+        <div class="product-card-sm" onclick="goPage('order')">
+          <div class="product-img-sm">🥓</div>
+          <div class="product-info-sm">
+            <div class="product-name-sm">한우 채끝</div>
+            <div class="product-grade">1++ 등급</div>
+            <div class="product-price">문의 주세요</div>
+          </div>
+        </div>
+        <div class="product-card-sm" onclick="goPage('order')">
+          <div class="product-img-sm">🫀</div>
+          <div class="product-info-sm">
+            <div class="product-name-sm">한우 안심</div>
+            <div class="product-grade">1+ 등급</div>
+            <div class="product-price">문의 주세요</div>
+          </div>
+        </div>
+        <div class="product-card-sm" onclick="goPage('order')">
+          <div class="product-img-sm">🥩</div>
+          <div class="product-info-sm">
+            <div class="product-name-sm">삼겹살</div>
+            <div class="product-grade">국내산</div>
+            <div class="product-price">문의 주세요</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section" style="padding-bottom:8px;">
+      <div class="section-title">바로가기</div>
+      <div class="section-subtitle">사랑하우 채널로 연결하기</div>
+    </div>
+    <div class="quick-grid">
+      <div class="quick-card" onclick="goPage('links')">
+        <div class="quick-icon">📍</div>
+        <div>
+          <div class="quick-text-label">네이버 지도</div>
+          <div class="quick-text-sub">오시는 길</div>
+        </div>
+      </div>
+      <div class="quick-card" onclick="goPage('links')">
+        <div class="quick-icon">📸</div>
+        <div>
+          <div class="quick-text-label">인스타그램</div>
+          <div class="quick-text-sub">상품 구경하기</div>
+        </div>
+      </div>
+      <div class="quick-card" onclick="goPage('links')">
+        <div class="quick-icon">💬</div>
+        <div>
+          <div class="quick-text-label">카카오톡</div>
+          <div class="quick-text-sub">채널 문의</div>
+        </div>
+      </div>
+      <div class="quick-card" onclick="callPhone()">
+        <div class="quick-icon">📞</div>
+        <div>
+          <div class="quick-text-label">전화 문의</div>
+          <div class="quick-text-sub">바로 연결</div>
+        </div>
+      </div>
+    </div>
+    <div style="height:16px;"></div>
+
+  </div><!-- /page-home -->
+
+
+  <!-- ══════════════════════════════════════
+       PAGE 2 · ORDER
+  ══════════════════════════════════════ -->
+  <div class="page" id="page-order">
+    <div class="order-header">
+      <h2>픽업 주문</h2>
+      <p>원하시는 상품을 선택하고 픽업 시간을 정해주세요</p>
+    </div>
+
+    <!-- Step dots -->
+    <div class="step-indicator">
+      <div class="step-dot active" id="sdot-1">1</div>
+      <div class="step-line" id="sline-1"></div>
+      <div class="step-dot" id="sdot-2">2</div>
+      <div class="step-line" id="sline-2"></div>
+      <div class="step-dot" id="sdot-3">3</div>
+      <div class="step-line" id="sline-3"></div>
+      <div class="step-dot" id="sdot-4">4</div>
+    </div>
+
+    <!-- Step 1: Select Products -->
+    <div class="order-step active" id="ostep-1">
+      <div class="product-grid">
+
+        <div class="product-row">
+          <div class="product-emoji">🥩</div>
+          <div class="product-detail">
+            <div class="product-name">한우 등심</div>
+            <div class="product-desc">1++ 등급 · 200g 단위</div>
+            <div class="product-price-row">가격 문의</div>
+          </div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty('등심', -1)">−</button>
+            <span class="qty-num" id="qty-등심">0</span>
+            <button class="qty-btn" onclick="changeQty('등심', 1)">+</button>
+          </div>
+        </div>
+
+        <div class="product-row">
+          <div class="product-emoji">🍖</div>
+          <div class="product-detail">
+            <div class="product-name">한우 갈비</div>
+            <div class="product-desc">1+ 등급 · 500g 단위</div>
+            <div class="product-price-row">가격 문의</div>
+          </div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty('갈비', -1)">−</button>
+            <span class="qty-num" id="qty-갈비">0</span>
+            <button class="qty-btn" onclick="changeQty('갈비', 1)">+</button>
+          </div>
+        </div>
+
+        <div class="product-row">
+          <div class="product-emoji">🥓</div>
+          <div class="product-detail">
+            <div class="product-name">한우 채끝</div>
+            <div class="product-desc">1++ 등급 · 200g 단위</div>
+            <div class="product-price-row">가격 문의</div>
+          </div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty('채끝', -1)">−</button>
+            <span class="qty-num" id="qty-채끝">0</span>
+            <button class="qty-btn" onclick="changeQty('채끝', 1)">+</button>
+          </div>
+        </div>
+
+        <div class="product-row">
+          <div class="product-emoji">🫀</div>
+          <div class="product-detail">
+            <div class="product-name">한우 안심</div>
+            <div class="product-desc">1+ 등급 · 200g 단위</div>
+            <div class="product-price-row">가격 문의</div>
+          </div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty('안심', -1)">−</button>
+            <span class="qty-num" id="qty-안심">0</span>
+            <button class="qty-btn" onclick="changeQty('안심', 1)">+</button>
+          </div>
+        </div>
+
+        <div class="product-row">
+          <div class="product-emoji">🥩</div>
+          <div class="product-detail">
+            <div class="product-name">한우 불고기용</div>
+            <div class="product-desc">1등급 · 300g 단위</div>
+            <div class="product-price-row">가격 문의</div>
+          </div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty('불고기', -1)">−</button>
+            <span class="qty-num" id="qty-불고기">0</span>
+            <button class="qty-btn" onclick="changeQty('불고기', 1)">+</button>
+          </div>
+        </div>
+
+        <div class="product-row">
+          <div class="product-emoji">🥓</div>
+          <div class="product-detail">
+            <div class="product-name">국내산 삼겹살</div>
+            <div class="product-desc">국내산 · 300g 단위</div>
+            <div class="product-price-row">가격 문의</div>
+          </div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty('삼겹살', -1)">−</button>
+            <span class="qty-num" id="qty-삼겹살">0</span>
+            <button class="qty-btn" onclick="changeQty('삼겹살', 1)">+</button>
+          </div>
+        </div>
+
+        <div class="product-row">
+          <div class="product-emoji">🍖</div>
+          <div class="product-detail">
+            <div class="product-name">국내산 목살</div>
+            <div class="product-desc">국내산 · 300g 단위</div>
+            <div class="product-price-row">가격 문의</div>
+          </div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty('목살', -1)">−</button>
+            <span class="qty-num" id="qty-목살">0</span>
+            <button class="qty-btn" onclick="changeQty('목살', 1)">+</button>
+          </div>
+        </div>
+
+        <div class="product-row">
+          <div class="product-emoji">🥩</div>
+          <div class="product-detail">
+            <div class="product-name">국내산 항정살</div>
+            <div class="product-desc">국내산 · 300g 단위</div>
+            <div class="product-price-row">가격 문의</div>
+          </div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty('항정살', -1)">−</button>
+            <span class="qty-num" id="qty-항정살">0</span>
+            <button class="qty-btn" onclick="changeQty('항정살', 1)">+</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="cart-bar" onclick="goStep(2)" id="cart-bar">
+        <span class="cart-bar-left">선택된 상품 <span id="cart-count">0</span>종</span>
+        <button class="cart-bar-right">다음 단계 →</button>
+      </div>
+
+      <div style="height:80px;"></div>
+    </div>
+
+    <!-- Step 2: Date & Time -->
+    <div class="order-step" id="ostep-2">
+      <div class="datetime-section">
+        <label class="field-label">픽업 날짜 <span>*</span></label>
+        <div class="date-grid" id="date-grid"></div>
+
+        <label class="field-label">픽업 시간 <span>*</span></label>
+        <div class="time-grid" id="time-grid"></div>
+      </div>
+      <div class="step-nav">
+        <button class="btn-back" onclick="goStep(1)">← 이전</button>
+        <button class="btn-next" onclick="goStep(3)">다음 단계 →</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Customer Info -->
+    <div class="order-step" id="ostep-3">
+      <div class="info-section">
+        <div class="input-group">
+          <label class="input-label">이름 <span class="req">*</span></label>
+          <input class="form-input" type="text" id="cust-name" placeholder="홍길동" maxlength="20" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">연락처 <span class="req">*</span></label>
+          <input class="form-input" type="tel" id="cust-phone" placeholder="010-0000-0000" maxlength="13" />
+        </div>
+        <div class="input-group">
+          <label class="input-label">요청사항 (선택)</label>
+          <textarea class="form-input form-textarea" id="cust-note" placeholder="예) 지방 적게 부탁드려요, 얇게 썰어 주세요 등"></textarea>
+        </div>
+      </div>
+      <div class="step-nav">
+        <button class="btn-back" onclick="goStep(2)">← 이전</button>
+        <button class="btn-next" onclick="goStep(4)">다음 단계 →</button>
+      </div>
+    </div>
+
+    <!-- Step 4: Confirm -->
+    <div class="order-step" id="ostep-4">
+      <div class="confirm-section" id="confirm-section"></div>
+    </div>
+
+    <!-- Success -->
+    <div class="success-screen" id="success-screen">
+      <div class="success-icon">🎉</div>
+      <div class="success-title">주문 완료!</div>
+      <div class="success-sub">사랑하우에 픽업 주문이 접수되었어요.<br>확인 후 카카오톡 또는 문자로 연락드릴게요.</div>
+      <div class="success-num">
+        <div class="label">주문 번호</div>
+        <div class="num" id="order-num">SH-0000</div>
+      </div>
+      <div class="success-sub" style="margin-bottom:20px;font-size:12px;color:#9E7F6E;">문의사항은 전화 또는 카카오톡 채널로 연락해 주세요.</div>
+      <button class="btn-new-order" onclick="resetOrder()">새 주문 하기</button>
+      <button class="btn-kakao" onclick="openKakao()">
+        <span>💬</span> 카카오톡 채널 문의
+      </button>
+    </div>
+
+  </div><!-- /page-order -->
+
+
+  <!-- ══════════════════════════════════════
+       PAGE 3 · STORE INFO
+  ══════════════════════════════════════ -->
+  <div class="page" id="page-info">
+    <div class="info-hero">
+      <h2>매장 정보</h2>
+      <p>사랑하우 정육 판매점<br>사랑을 담은 최상급 한우를 만나보세요</p>
+    </div>
+    <div class="gold-line"></div>
+
+    <div class="map-placeholder" onclick="openNaverMap()">
+      <div class="map-inner">
+        <div class="map-icon">🗺️</div>
+        <div class="map-text">네이버 지도로 보기</div>
+        <div class="map-sub">탭하여 오시는 길 확인</div>
+      </div>
+    </div>
+
+    <div class="info-cards">
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="ic">📍</div>
+          <div class="title">매장 위치</div>
+        </div>
+        <div class="info-card-body">
+          <div class="info-line">
+            <span class="lkey">주소</span>
+            <span class="lval" id="store-address">주소를 입력해 주세요</span>
+          </div>
+          <div class="info-line">
+            <span class="lkey">전화</span>
+            <span class="lval"><a href="tel:010-0000-0000" id="store-phone">전화번호를 입력해 주세요</a></span>
+          </div>
+          <div class="info-line">
+            <span class="lkey">주차</span>
+            <span class="lval">매장 앞 주차 가능</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="ic">🕐</div>
+          <div class="title">영업 시간</div>
+        </div>
+        <div class="info-card-body" id="hours-card"></div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-header">
+          <div class="ic">🥩</div>
+          <div class="title">매장 소개</div>
+        </div>
+        <div class="info-card-body">
+          <div class="info-line">
+            <span class="lkey">전문</span>
+            <span class="lval">한우 1등급 이상 전문 취급</span>
+          </div>
+          <div class="info-line">
+            <span class="lkey">원산지</span>
+            <span class="lval">국내산 한우 / 국내산 돼지고기</span>
+          </div>
+          <div class="info-line">
+            <span class="lkey">특징</span>
+            <span class="lval">당일 신선 입고 · 직접 손질 · 픽업 서비스 운영</span>
+          </div>
+          <div class="info-line">
+            <span class="lkey">결제</span>
+            <span class="lval">현금 · 카드 · 계좌이체</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div style="height:16px;"></div>
+  </div><!-- /page-info -->
+
+
+  <!-- ══════════════════════════════════════
+       PAGE 4 · LINKS
+  ══════════════════════════════════════ -->
+  <div class="page" id="page-links">
+    <div class="links-hero">
+      <h2>사랑하우 채널</h2>
+      <p>사랑하우의 다양한 채널에서<br>신선한 소식과 정보를 만나보세요</p>
+    </div>
+    <div class="gold-line"></div>
+
+    <div style="height:16px;"></div>
+
+    <div class="contact-direct">
+      <div class="ct-label">전화 주문 · 문의</div>
+      <div class="ct-num" id="contact-phone">000-0000-0000</div>
+      <div class="ct-sub">평일 09:00 ~ 19:00 · 토요일 09:00 ~ 18:00</div>
+      <a class="btn-call" href="tel:000-0000-0000" id="contact-phone-link">📞 바로 전화하기</a>
+    </div>
+
+    <div class="links-list">
+
+      <div class="link-card" onclick="openNaverMap()">
+        <div class="link-card-color lc-naver">📍</div>
+        <div class="link-card-body">
+          <div class="link-card-name">네이버 지도</div>
+          <div class="link-card-desc">사랑하우 위치 및 오시는 길</div>
+        </div>
+        <div class="link-card-arrow">›</div>
+      </div>
+
+      <div class="link-card" onclick="openInstagram()">
+        <div class="link-card-color lc-insta">📸</div>
+        <div class="link-card-body">
+          <div class="link-card-name">인스타그램</div>
+          <div class="link-card-desc">신선한 상품 사진 · 이벤트 소식</div>
+        </div>
+        <div class="link-card-arrow">›</div>
+      </div>
+
+      <div class="link-card" onclick="openKakao()">
+        <div class="link-card-color lc-kakao">💬</div>
+        <div class="link-card-body">
+          <div class="link-card-name">카카오톡 채널</div>
+          <div class="link-card-desc">1:1 채팅 문의 · 주문 상담</div>
+        </div>
+        <div class="link-card-arrow">›</div>
+      </div>
+
+      <div class="link-card" onclick="callPhone()">
+        <div class="link-card-color lc-phone">📞</div>
+        <div class="link-card-body">
+          <div class="link-card-name">전화 문의</div>
+          <div class="link-card-desc">직접 전화로 주문 · 상담</div>
+        </div>
+        <div class="link-card-arrow">›</div>
+      </div>
+
+    </div>
+    <div style="height:16px;"></div>
+  </div><!-- /page-links -->
+
+</div><!-- /pages-wrap -->
+
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-item active" id="nav-home" onclick="goPage('home')">
+    <span class="nav-icon">🏠</span>
+    <span class="nav-label">홈</span>
+    <div class="nav-dot"></div>
+  </button>
+  <button class="nav-item" id="nav-order" onclick="goPage('order')">
+    <span class="nav-icon">🛒</span>
+    <span class="nav-label">픽업주문</span>
+  </button>
+  <button class="nav-item" id="nav-info" onclick="goPage('info')">
+    <span class="nav-icon">📍</span>
+    <span class="nav-label">매장정보</span>
+  </button>
+  <button class="nav-item" id="nav-links" onclick="goPage('links')">
+    <span class="nav-icon">🔗</span>
+    <span class="nav-label">채널</span>
+  </button>
+</nav>
+
+
+<script>
+// ──────────────────────────────────
+// CONFIG — 나중에 수정하세요
+// ──────────────────────────────────
+const CONFIG = {
+  phone: '000-0000-0000',           // 전화번호
+  naverMapUrl: 'https://map.naver.com',  // 네이버 지도 URL
+  instagramUrl: 'https://instagram.com', // 인스타그램 URL
+  kakaoChannelUrl: 'https://pf.kakao.com', // 카카오 채널 URL
+  address: '주소를 입력해 주세요',
+  businessHours: {
+    mon: '09:00 ~ 19:00',
+    tue: '09:00 ~ 19:00',
+    wed: '09:00 ~ 19:00',
+    thu: '09:00 ~ 19:00',
+    fri: '09:00 ~ 19:00',
+    sat: '09:00 ~ 18:00',
+    sun: '휴무'
+  }
+};
+
+// Apply config
+document.getElementById('store-address').textContent = CONFIG.address;
+document.getElementById('store-phone').textContent = CONFIG.phone;
+document.getElementById('store-phone').href = 'tel:' + CONFIG.phone;
+document.getElementById('contact-phone').textContent = CONFIG.phone;
+document.getElementById('contact-phone-link').href = 'tel:' + CONFIG.phone;
+document.getElementById('contact-phone-link').textContent = '📞 바로 전화하기';
+
+// ──────────────────────────────────
+// PAGE NAVIGATION
+// ──────────────────────────────────
+const pages = ['home', 'order', 'info', 'links'];
+
+function goPage(name) {
+  pages.forEach(p => {
+    document.getElementById('page-' + p).classList.remove('active');
+    const nav = document.getElementById('nav-' + p);
+    if (nav) {
+      nav.classList.remove('active');
+      const dot = nav.querySelector('.nav-dot');
+      if (dot) dot.remove();
+    }
+  });
+  document.getElementById('page-' + name).classList.add('active');
+  const activeNav = document.getElementById('nav-' + name);
+  if (activeNav) {
+    activeNav.classList.add('active');
+    if (!activeNav.querySelector('.nav-dot')) {
+      const dot = document.createElement('div');
+      dot.className = 'nav-dot';
+      activeNav.appendChild(dot);
+    }
+  }
+  window.scrollTo(0, 0);
+}
+
+// ──────────────────────────────────
+// EXTERNAL LINKS
+// ──────────────────────────────────
+function openNaverMap() { window.open(CONFIG.naverMapUrl, '_blank'); }
+function openInstagram() { window.open(CONFIG.instagramUrl, '_blank'); }
+function openKakao()    { window.open(CONFIG.kakaoChannelUrl, '_blank'); }
+function callPhone()    { window.location.href = 'tel:' + CONFIG.phone; }
+
+// ──────────────────────────────────
+// ORDER STATE
+// ──────────────────────────────────
+const products = ['등심','갈비','채끝','안심','불고기','삼겹살','목살','항정살'];
+let qty = {};
+products.forEach(p => qty[p] = 0);
+
+let selectedDate = null;
+let selectedTime = null;
+let currentStep = 1;
+
+function changeQty(name, delta) {
+  qty[name] = Math.max(0, qty[name] + delta);
+  document.getElementById('qty-' + name).textContent = qty[name];
+  const total = products.reduce((s, p) => s + qty[p], 0);
+  document.getElementById('cart-count').textContent = total;
+}
+
+function totalItems() {
+  return products.reduce((s, p) => s + qty[p], 0);
+}
+
+// ──────────────────────────────────
+// DATE GRID
+// ──────────────────────────────────
+const dayNames = ['일','월','화','수','목','금','토'];
+
+function buildDateGrid() {
+  const grid = document.getElementById('date-grid');
+  grid.innerHTML = '';
+  const today = new Date();
+  for (let i = 1; i <= 8; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+    const dow = d.getDay();
+    const isSun = dow === 0;
+    const isSat = dow === 6;
+    const dateStr = d.toLocaleDateString('ko-KR', { month:'numeric', day:'numeric'});
+    const chip = document.createElement('div');
+    chip.className = 'date-chip' + (isSun ? ' sunday' : isSat ? ' saturday' : '');
+    chip.dataset.date = d.toISOString().slice(0,10);
+    chip.dataset.label = dateStr + ' (' + dayNames[dow] + ')';
+    chip.innerHTML = `<div class="day-name">${dayNames[dow]}</div><div class="day-num">${d.getDate()}</div>`;
+    chip.onclick = function() {
+      document.querySelectorAll('.date-chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      selectedDate = chip.dataset.date;
+      selectedDateLabel = chip.dataset.label;
+    };
+    grid.appendChild(chip);
+  }
+}
+
+let selectedDateLabel = '';
+
+// ──────────────────────────────────
+// TIME GRID
+// ──────────────────────────────────
+const timeSlots = [
+  '09:00','10:00','11:00','12:00',
+  '13:00','14:00','15:00','16:00',
+  '17:00','18:00'
+];
+
+function buildTimeGrid() {
+  const grid = document.getElementById('time-grid');
+  grid.innerHTML = '';
+  timeSlots.forEach(t => {
+    const chip = document.createElement('div');
+    chip.className = 'time-chip';
+    chip.textContent = t;
+    chip.onclick = function() {
+      document.querySelectorAll('.time-chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      selectedTime = t;
+    };
+    grid.appendChild(chip);
+  });
+}
+
+// ──────────────────────────────────
+// HOURS TABLE
+// ──────────────────────────────────
+function buildHoursCard() {
+  const card = document.getElementById('hours-card');
+  const todayDow = new Date().getDay();
+  const keys = ['sun','mon','tue','wed','thu','fri','sat'];
+  const labels = ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
+  card.innerHTML = '';
+  keys.forEach((k, i) => {
+    const row = document.createElement('div');
+    const isToday = i === todayDow;
+    row.className = 'hours-row' + (isToday ? ' today' : '');
+    const time = CONFIG.businessHours[k];
+    row.innerHTML = `
+      <span class="day">${labels[i]}${isToday ? ' <span class="today-badge">오늘</span>' : ''}</span>
+      <span class="${time === '휴무' ? 'closed' : 'time'}">${time}</span>
+    `;
+    card.appendChild(row);
+  });
+}
+
+// ──────────────────────────────────
+// STEP NAVIGATION
+// ──────────────────────────────────
+function updateStepDots(step) {
+  for (let i = 1; i <= 4; i++) {
+    const dot = document.getElementById('sdot-' + i);
+    dot.classList.remove('active','done');
+    if (i < step) dot.classList.add('done');
+    else if (i === step) dot.classList.add('active');
+  }
+  for (let i = 1; i <= 3; i++) {
+    const line = document.getElementById('sline-' + i);
+    line.classList.toggle('done', i < step);
+  }
+}
+
+function goStep(step) {
+  // Validation
+  if (step === 2 && totalItems() === 0) {
+    alert('상품을 1개 이상 선택해 주세요.');
+    return;
+  }
+  if (step === 3 && (!selectedDate || !selectedTime)) {
+    alert('픽업 날짜와 시간을 선택해 주세요.');
+    return;
+  }
+  if (step === 4) {
+    const name = document.getElementById('cust-name').value.trim();
+    const phone = document.getElementById('cust-phone').value.trim();
+    if (!name) { alert('이름을 입력해 주세요.'); return; }
+    if (!phone) { alert('연락처를 입력해 주세요.'); return; }
+    buildConfirm();
+  }
+
+  document.querySelectorAll('.order-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('ostep-' + step).classList.add('active');
+  updateStepDots(step);
+  currentStep = step;
+  window.scrollTo(0, 0);
+}
+
+// ──────────────────────────────────
+// BUILD CONFIRM PAGE
+// ──────────────────────────────────
+function buildConfirm() {
+  const name = document.getElementById('cust-name').value.trim();
+  const phone = document.getElementById('cust-phone').value.trim();
+  const note = document.getElementById('cust-note').value.trim();
+
+  const items = products.filter(p => qty[p] > 0);
+  const productLines = items.map(p => `<div class="confirm-row"><span class="label">한우 ${p}</span><span class="value">${qty[p]}팩</span></div>`).join('');
+
+  const section = document.getElementById('confirm-section');
+  section.innerHTML = `
+    <div class="confirm-card">
+      <div class="confirm-title">📦 주문 상품</div>
+      ${productLines}
+    </div>
+    <div class="confirm-card">
+      <div class="confirm-title">📅 픽업 정보</div>
+      <div class="confirm-row"><span class="label">날짜</span><span class="value">${selectedDateLabel}</span></div>
+      <div class="confirm-row"><span class="label">시간</span><span class="value">${selectedTime}</span></div>
+    </div>
+    <div class="confirm-card">
+      <div class="confirm-title">👤 고객 정보</div>
+      <div class="confirm-row"><span class="label">이름</span><span class="value">${name}</span></div>
+      <div class="confirm-row"><span class="label">연락처</span><span class="value">${phone}</span></div>
+      ${note ? `<div class="confirm-row"><span class="label">요청</span><span class="value">${note}</span></div>` : ''}
+    </div>
+    <div class="confirm-note">
+      ※ 주문 확인 후 카카오톡 또는 문자로 안내 드립니다.<br>
+      ※ 픽업 당일 매장 방문 시 주문 번호를 알려주세요.<br>
+      ※ 픽업 1시간 전 취소 시 연락 부탁드립니다.
+    </div>
+    <button class="btn-submit" onclick="submitOrder()">주문 확정하기</button>
+    <div style="height:10px;"></div>
+    <div class="step-nav" style="padding-top:4px;">
+      <button class="btn-back" onclick="goStep(3)">← 수정하기</button>
+    </div>
+  `;
+}
+
+// ──────────────────────────────────
+// SUBMIT ORDER
+// ──────────────────────────────────
+function submitOrder() {
+  const orderNum = 'SH-' + String(Math.floor(Math.random() * 9000) + 1000);
+  document.getElementById('order-num').textContent = orderNum;
+
+  // Hide all steps, show success
+  document.querySelectorAll('.order-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('success-screen').classList.add('show');
+  updateStepDots(5);
+  window.scrollTo(0,0);
+}
+
+function resetOrder() {
+  products.forEach(p => { qty[p] = 0; document.getElementById('qty-' + p).textContent = 0; });
+  document.getElementById('cart-count').textContent = 0;
+  selectedDate = null;
+  selectedTime = null;
+  selectedDateLabel = '';
+  document.getElementById('cust-name').value = '';
+  document.getElementById('cust-phone').value = '';
+  document.getElementById('cust-note').value = '';
+  document.getElementById('success-screen').classList.remove('show');
+  buildDateGrid();
+  buildTimeGrid();
+  goStep(1);
+  window.scrollTo(0,0);
+}
+
+// ──────────────────────────────────
+// PHONE FORMAT
+// ──────────────────────────────────
+document.getElementById('cust-phone').addEventListener('input', function() {
+  let v = this.value.replace(/\D/g,'');
+  if (v.length <= 3) this.value = v;
+  else if (v.length <= 7) this.value = v.slice(0,3) + '-' + v.slice(3);
+  else this.value = v.slice(0,3) + '-' + v.slice(3,7) + '-' + v.slice(7,11);
+});
+
+// ──────────────────────────────────
+// INIT
+// ──────────────────────────────────
+buildDateGrid();
+buildTimeGrid();
+buildHoursCard();
+</script>
+
+</body>
+</html>
