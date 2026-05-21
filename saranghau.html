@@ -1183,8 +1183,12 @@
             <span class="lval"><a href="tel:010-0000-0000" id="store-phone">전화번호를 입력해 주세요</a></span>
           </div>
           <div class="info-line">
+            <span class="lkey">위치</span>
+            <span class="lval">천안중앙시장 내 · 다이소 맞은편</span>
+          </div>
+          <div class="info-line">
             <span class="lkey">주차</span>
-            <span class="lval">매장 앞 주차 가능</span>
+            <span class="lval">천안중앙시장 주차타워 이용 가능</span>
           </div>
         </div>
       </div>
@@ -1242,7 +1246,7 @@
     <div class="contact-direct">
       <div class="ct-label">전화 주문 · 문의</div>
       <div class="ct-num" id="contact-phone">000-0000-0000</div>
-      <div class="ct-sub">평일 09:00 ~ 19:00 · 토요일 09:00 ~ 18:00</div>
+      <div class="ct-sub">평일 09:00 ~ 19:00 · 토요일 09:00 ~ 18:00 · 일요일 휴무</div>
       <a class="btn-call" href="tel:000-0000-0000" id="contact-phone-link">📞 바로 전화하기</a>
     </div>
 
@@ -1318,11 +1322,11 @@
 // CONFIG — 나중에 수정하세요
 // ──────────────────────────────────
 const CONFIG = {
-  phone: '000-0000-0000',           // 전화번호
-  naverMapUrl: 'https://map.naver.com',  // 네이버 지도 URL
-  instagramUrl: 'https://instagram.com', // 인스타그램 URL
-  kakaoChannelUrl: 'https://pf.kakao.com', // 카카오 채널 URL
-  address: '주소를 입력해 주세요',
+  phone: '041-555-7747',
+  naverMapUrl: 'https://map.naver.com/v5/search/천안시+동남구+사직로+5',
+  instagramUrl: 'https://www.instagram.com/saranghow_official?igsh=d2J2NXF0ZTR6amlx&utm_source=qr',
+  kakaoChannelUrl: 'https://pf.kakao.com', // 카카오 채널 URL (추후 입력)
+  address: '충남 천안시 동남구 사직로 5, 1층',
   businessHours: {
     mon: '09:00 ~ 19:00',
     tue: '09:00 ~ 19:00',
@@ -1340,7 +1344,7 @@ document.getElementById('store-phone').textContent = CONFIG.phone;
 document.getElementById('store-phone').href = 'tel:' + CONFIG.phone;
 document.getElementById('contact-phone').textContent = CONFIG.phone;
 document.getElementById('contact-phone-link').href = 'tel:' + CONFIG.phone;
-document.getElementById('contact-phone-link').textContent = '📞 바로 전화하기';
+document.getElementById('contact-phone-link').textContent = '📞 041-555-7747 바로 전화하기';
 
 // ──────────────────────────────────
 // PAGE NAVIGATION
