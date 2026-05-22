@@ -376,6 +376,41 @@
     .order-step { display: none; }
     .order-step.active { display: block; }
 
+    /* Category Tabs */
+    .cat-tabs {
+      display: flex;
+      gap: 8px;
+      padding: 14px 16px 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .cat-tabs::-webkit-scrollbar { display: none; }
+    .cat-tab {
+      flex: 0 0 auto;
+      border: 2px solid var(--border);
+      border-radius: 50px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-mid);
+      background: white;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .cat-tab.active {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: white;
+    }
+    .cat-divider {
+      padding: 14px 0 4px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-light);
+      letter-spacing: 1px;
+    }
+
     /* Product Selection */
     .product-grid {
       display: flex;
@@ -850,6 +885,113 @@
       background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
     }
 
+    /* ─── TODAY'S EVENT ─── */
+    .event-section {
+      padding: 20px 16px 8px;
+    }
+    .event-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .event-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--text-dark);
+    }
+    .event-badge-today {
+      background: var(--primary);
+      color: white;
+      border-radius: 8px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+    .event-date {
+      font-size: 12px;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+    .event-banner {
+      background: linear-gradient(135deg, #6B0F1F, #9B2335);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 4px 16px rgba(155,35,53,0.25);
+    }
+    .event-banner-icon { font-size: 36px; flex-shrink: 0; }
+    .event-banner-text { flex: 1; }
+    .event-banner-title { font-size: 16px; font-weight: 900; color: var(--cream-brand); }
+    .event-banner-sub { font-size: 12px; color: rgba(237,224,204,0.75); margin-top: 3px; line-height: 1.5; }
+    .event-banner-btn {
+      background: var(--cream-brand);
+      color: var(--primary);
+      border: none;
+      border-radius: 50px;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .event-items {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .event-item {
+      background: white;
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 2px 10px var(--shadow);
+      border-left: 4px solid var(--primary);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .event-item:active { transform: scale(0.98); }
+    .event-item-emoji { font-size: 32px; flex-shrink: 0; }
+    .event-item-info { flex: 1; min-width: 0; }
+    .event-item-name { font-size: 14px; font-weight: 800; color: var(--text-dark); }
+    .event-item-desc { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+    .event-item-right { text-align: right; flex-shrink: 0; }
+    .event-item-tag {
+      display: inline-block;
+      background: #FFF0F0;
+      color: var(--primary);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .event-item-price {
+      font-size: 15px;
+      font-weight: 900;
+      color: var(--primary);
+    }
+    .event-item-price.inquiry { font-size: 13px; color: var(--text-light); }
+    .event-empty {
+      background: #FFF8F2;
+      border-radius: var(--radius);
+      padding: 28px 20px;
+      text-align: center;
+      color: var(--text-light);
+      font-size: 14px;
+      border: 2px dashed var(--border);
+    }
+    .event-empty .ic { font-size: 32px; margin-bottom: 8px; }
+
     /* ─── PHOTO GALLERY ─── */
     .photo-gallery {
       padding: 20px 16px 8px;
@@ -936,6 +1078,30 @@
     </div>
 
     <div class="gold-line"></div>
+
+    <!-- 오늘의 행사 -->
+    <div class="event-section">
+      <div class="event-header">
+        <div class="event-title">
+          <span>오늘의 행사</span>
+          <span class="event-badge-today">TODAY</span>
+        </div>
+        <span class="event-date" id="event-today-date"></span>
+      </div>
+
+      <!-- 행사 배너 -->
+      <div class="event-banner" id="event-banner" style="display:none;">
+        <div class="event-banner-icon" id="event-banner-icon">🎉</div>
+        <div class="event-banner-text">
+          <div class="event-banner-title" id="event-banner-title"></div>
+          <div class="event-banner-sub" id="event-banner-sub"></div>
+        </div>
+        <button class="event-banner-btn" onclick="goPage('order')">주문하기</button>
+      </div>
+
+      <!-- 행사 품목 목록 -->
+      <div class="event-items" id="event-items-list"></div>
+    </div>
 
     <!-- 사진 갤러리 -->
     <div class="photo-gallery">
@@ -1074,120 +1240,18 @@
 
     <!-- Step 1: Select Products -->
     <div class="order-step active" id="ostep-1">
-      <div class="product-grid">
 
-        <div class="product-row">
-          <div class="product-emoji">🥩</div>
-          <div class="product-detail">
-            <div class="product-name">한우 등심</div>
-            <div class="product-desc">1++ 등급 · 200g 단위</div>
-            <div class="product-price-row">가격 문의</div>
-          </div>
-          <div class="qty-control">
-            <button class="qty-btn" onclick="changeQty('등심', -1)">−</button>
-            <span class="qty-num" id="qty-등심">0</span>
-            <button class="qty-btn" onclick="changeQty('등심', 1)">+</button>
-          </div>
-        </div>
+      <!-- 카테고리 탭 -->
+      <div class="cat-tabs" id="cat-tabs">
+        <button class="cat-tab active" onclick="selectCat('all')">🛒 전체</button>
+        <button class="cat-tab" onclick="selectCat('한우')">🐄 한우</button>
+        <button class="cat-tab" onclick="selectCat('소')">🌍 소(수입)</button>
+        <button class="cat-tab" onclick="selectCat('돼지')">🐷 돼지</button>
+        <button class="cat-tab" onclick="selectCat('부산물')">🦴 부산물</button>
+      </div>
 
-        <div class="product-row">
-          <div class="product-emoji">🍖</div>
-          <div class="product-detail">
-            <div class="product-name">한우 갈비</div>
-            <div class="product-desc">1+ 등급 · 500g 단위</div>
-            <div class="product-price-row">가격 문의</div>
-          </div>
-          <div class="qty-control">
-            <button class="qty-btn" onclick="changeQty('갈비', -1)">−</button>
-            <span class="qty-num" id="qty-갈비">0</span>
-            <button class="qty-btn" onclick="changeQty('갈비', 1)">+</button>
-          </div>
-        </div>
-
-        <div class="product-row">
-          <div class="product-emoji">🥓</div>
-          <div class="product-detail">
-            <div class="product-name">한우 채끝</div>
-            <div class="product-desc">1++ 등급 · 200g 단위</div>
-            <div class="product-price-row">가격 문의</div>
-          </div>
-          <div class="qty-control">
-            <button class="qty-btn" onclick="changeQty('채끝', -1)">−</button>
-            <span class="qty-num" id="qty-채끝">0</span>
-            <button class="qty-btn" onclick="changeQty('채끝', 1)">+</button>
-          </div>
-        </div>
-
-        <div class="product-row">
-          <div class="product-emoji">🫀</div>
-          <div class="product-detail">
-            <div class="product-name">한우 안심</div>
-            <div class="product-desc">1+ 등급 · 200g 단위</div>
-            <div class="product-price-row">가격 문의</div>
-          </div>
-          <div class="qty-control">
-            <button class="qty-btn" onclick="changeQty('안심', -1)">−</button>
-            <span class="qty-num" id="qty-안심">0</span>
-            <button class="qty-btn" onclick="changeQty('안심', 1)">+</button>
-          </div>
-        </div>
-
-        <div class="product-row">
-          <div class="product-emoji">🥩</div>
-          <div class="product-detail">
-            <div class="product-name">한우 불고기용</div>
-            <div class="product-desc">1등급 · 300g 단위</div>
-            <div class="product-price-row">가격 문의</div>
-          </div>
-          <div class="qty-control">
-            <button class="qty-btn" onclick="changeQty('불고기', -1)">−</button>
-            <span class="qty-num" id="qty-불고기">0</span>
-            <button class="qty-btn" onclick="changeQty('불고기', 1)">+</button>
-          </div>
-        </div>
-
-        <div class="product-row">
-          <div class="product-emoji">🥓</div>
-          <div class="product-detail">
-            <div class="product-name">국내산 삼겹살</div>
-            <div class="product-desc">국내산 · 300g 단위</div>
-            <div class="product-price-row">가격 문의</div>
-          </div>
-          <div class="qty-control">
-            <button class="qty-btn" onclick="changeQty('삼겹살', -1)">−</button>
-            <span class="qty-num" id="qty-삼겹살">0</span>
-            <button class="qty-btn" onclick="changeQty('삼겹살', 1)">+</button>
-          </div>
-        </div>
-
-        <div class="product-row">
-          <div class="product-emoji">🍖</div>
-          <div class="product-detail">
-            <div class="product-name">국내산 목살</div>
-            <div class="product-desc">국내산 · 300g 단위</div>
-            <div class="product-price-row">가격 문의</div>
-          </div>
-          <div class="qty-control">
-            <button class="qty-btn" onclick="changeQty('목살', -1)">−</button>
-            <span class="qty-num" id="qty-목살">0</span>
-            <button class="qty-btn" onclick="changeQty('목살', 1)">+</button>
-          </div>
-        </div>
-
-        <div class="product-row">
-          <div class="product-emoji">🥩</div>
-          <div class="product-detail">
-            <div class="product-name">국내산 항정살</div>
-            <div class="product-desc">국내산 · 300g 단위</div>
-            <div class="product-price-row">가격 문의</div>
-          </div>
-          <div class="qty-control">
-            <button class="qty-btn" onclick="changeQty('항정살', -1)">−</button>
-            <span class="qty-num" id="qty-항정살">0</span>
-            <button class="qty-btn" onclick="changeQty('항정살', 1)">+</button>
-          </div>
-        </div>
-
+      <div class="product-grid" id="product-grid-dynamic">
+        <!-- JS로 렌더링 -->
       </div>
 
       <div class="cart-bar" onclick="goStep(2)" id="cart-bar">
@@ -1433,6 +1497,19 @@
 // CONFIG — 나중에 수정하세요
 // ──────────────────────────────────
 const CONFIG = {
+  // 오늘의 행사 배너 (없으면 banner: null)
+  eventBanner: {
+    icon: '🎉',
+    title: '오늘의 특별 행사',
+    sub: '매일 신선하게 들어오는 당일 입고 한우\n오늘만의 특가 품목을 확인하세요!'
+  },
+
+  // 오늘의 행사 품목 (없애려면 [] 로 비우기)
+  eventItems: [
+    { emoji: '🥩', name: '한우 등심 특가', desc: '1++ 등급 · 당일 입고 · 200g', tag: '오늘만', price: '문의' },
+    { emoji: '🍖', name: '한우 갈비 세트', desc: '1+ 등급 · 선물용 포장 가능 · 500g', tag: '행사', price: '문의' },
+    { emoji: '🥓', name: '국내산 삼겹살', desc: '두툼하게 썰어드려요 · 300g', tag: '인기', price: '문의' },
+  ],
   phone: '041-555-7747',
   naverMapUrl: 'https://map.naver.com/v5/search/천안시+동남구+사직로+5',
   instagramUrl: 'https://www.instagram.com/saranghow_official?igsh=d2J2NXF0ZTR6amlx&utm_source=qr',
@@ -1494,25 +1571,106 @@ function openKakao()    { window.open(CONFIG.kakaoChannelUrl, '_blank'); }
 function callPhone()    { window.location.href = 'tel:' + CONFIG.phone; }
 
 // ──────────────────────────────────
+// PRODUCT DATA (카테고리별)
+// ──────────────────────────────────
+const PRODUCT_DATA = [
+  // 한우
+  { id: '등심',   cat: '한우', emoji: '🥩', name: '한우 등심',     desc: '1++ 등급 · 200g 단위' },
+  { id: '채끝',   cat: '한우', emoji: '🥩', name: '한우 채끝',     desc: '1++ 등급 · 200g 단위' },
+  { id: '안심',   cat: '한우', emoji: '🥩', name: '한우 안심',     desc: '1+ 등급 · 200g 단위' },
+  { id: '갈비',   cat: '한우', emoji: '🍖', name: '한우 갈비',     desc: '1+ 등급 · 500g 단위' },
+  { id: '불고기', cat: '한우', emoji: '🥩', name: '한우 불고기용', desc: '1등급 · 300g 단위' },
+  { id: '국거리', cat: '한우', emoji: '🥣', name: '한우 국거리',   desc: '1등급 · 300g 단위' },
+  // 소(수입)
+  { id: '척아이롤', cat: '소', emoji: '🥩', name: '미국산 척아이롤', desc: '미국산 · 200g 단위' },
+  { id: '부채살',   cat: '소', emoji: '🥩', name: '미국산 부채살',   desc: '미국산 · 200g 단위' },
+  { id: '양고기',   cat: '소', emoji: '🍖', name: '호주산 양고기',   desc: '호주산 · 300g 단위' },
+  { id: '수입갈비', cat: '소', emoji: '🍖', name: '미국산 LA갈비',  desc: '미국산 · 500g 단위' },
+  // 돼지
+  { id: '삼겹살',   cat: '돼지', emoji: '🥓', name: '국내산 삼겹살',  desc: '국내산 · 300g 단위' },
+  { id: '목살',     cat: '돼지', emoji: '🍖', name: '국내산 목살',    desc: '국내산 · 300g 단위' },
+  { id: '항정살',   cat: '돼지', emoji: '🥩', name: '국내산 항정살',  desc: '국내산 · 300g 단위' },
+  { id: '앞다리살', cat: '돼지', emoji: '🍖', name: '국내산 앞다리살',desc: '국내산 · 300g 단위' },
+  { id: '갈매기살', cat: '돼지', emoji: '🥩', name: '국내산 갈매기살',desc: '국내산 · 200g 단위' },
+  // 부산물
+  { id: '사골',   cat: '부산물', emoji: '🦴', name: '한우 사골',        desc: '국내산 한우 · 1kg 단위' },
+  { id: '도가니', cat: '부산물', emoji: '🦴', name: '한우 도가니',      desc: '국내산 한우 · 500g 단위' },
+  { id: '꼬리',   cat: '부산물', emoji: '🦴', name: '한우 꼬리',        desc: '국내산 한우 · 1kg 단위' },
+  { id: '돼지뼈', cat: '부산물', emoji: '🦴', name: '돼지뼈 (감자탕용)',desc: '국내산 · 1kg 단위' },
+  { id: '족발',   cat: '부산물', emoji: '🍖', name: '돼지 앞족',        desc: '국내산 · 1개 단위' },
+];
+
+// ──────────────────────────────────
 // ORDER STATE
 // ──────────────────────────────────
-const products = ['등심','갈비','채끝','안심','불고기','삼겹살','목살','항정살'];
 let qty = {};
-products.forEach(p => qty[p] = 0);
+PRODUCT_DATA.forEach(p => qty[p.id] = 0);
+let currentCat = 'all';
 
 let selectedDate = null;
 let selectedTime = null;
 let currentStep = 1;
 
+// ──────────────────────────────────
+// PRODUCT GRID RENDER
+// ──────────────────────────────────
+const CAT_META = {
+  '한우':   { label: '🐄 한우', color: '#9B2335' },
+  '소':     { label: '🌍 소 (수입육)', color: '#5B6A8A' },
+  '돼지':   { label: '🐷 돼지', color: '#C0622D' },
+  '부산물': { label: '🦴 부산물', color: '#6B5A3E' },
+};
+
+function renderProductGrid() {
+  const grid = document.getElementById('product-grid-dynamic');
+  const filtered = currentCat === 'all'
+    ? PRODUCT_DATA
+    : PRODUCT_DATA.filter(p => p.cat === currentCat);
+
+  let html = '';
+  let lastCat = null;
+  filtered.forEach(p => {
+    if (currentCat === 'all' && p.cat !== lastCat) {
+      const meta = CAT_META[p.cat];
+      html += `<div class="cat-divider" style="color:${meta.color}">${meta.label}</div>`;
+      lastCat = p.cat;
+    }
+    html += `
+      <div class="product-row">
+        <div class="product-emoji">${p.emoji}</div>
+        <div class="product-detail">
+          <div class="product-name">${p.name}</div>
+          <div class="product-desc">${p.desc}</div>
+          <div class="product-price-row">가격 문의</div>
+        </div>
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeQty('${p.id}',-1)">−</button>
+          <span class="qty-num" id="qty-${p.id}">${qty[p.id]}</span>
+          <button class="qty-btn" onclick="changeQty('${p.id}',1)">+</button>
+        </div>
+      </div>`;
+  });
+  grid.innerHTML = html;
+}
+
+function selectCat(cat) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  const idx = ['all','한우','소','돼지','부산물'].indexOf(cat);
+  document.querySelectorAll('.cat-tab')[idx]?.classList.add('active');
+  renderProductGrid();
+}
+
 function changeQty(name, delta) {
   qty[name] = Math.max(0, qty[name] + delta);
-  document.getElementById('qty-' + name).textContent = qty[name];
-  const total = products.reduce((s, p) => s + qty[p], 0);
+  const el = document.getElementById('qty-' + name);
+  if (el) el.textContent = qty[name];
+  const total = PRODUCT_DATA.reduce((s, p) => s + qty[p.id], 0);
   document.getElementById('cart-count').textContent = total;
 }
 
 function totalItems() {
-  return products.reduce((s, p) => s + qty[p], 0);
+  return PRODUCT_DATA.reduce((s, p) => s + qty[p.id], 0);
 }
 
 // ──────────────────────────────────
@@ -1644,8 +1802,8 @@ function buildConfirm() {
   const phone = document.getElementById('cust-phone').value.trim();
   const note = document.getElementById('cust-note').value.trim();
 
-  const items = products.filter(p => qty[p] > 0);
-  const productLines = items.map(p => `<div class="confirm-row"><span class="label">한우 ${p}</span><span class="value">${qty[p]}팩</span></div>`).join('');
+  const items = PRODUCT_DATA.filter(p => qty[p.id] > 0);
+  const productLines = items.map(p => `<div class="confirm-row"><span class="label">${p.name}</span><span class="value">${qty[p.id]}팩</span></div>`).join('');
 
   const section = document.getElementById('confirm-section');
   section.innerHTML = `
@@ -1692,7 +1850,7 @@ function submitOrder() {
 }
 
 function resetOrder() {
-  products.forEach(p => { qty[p] = 0; document.getElementById('qty-' + p).textContent = 0; });
+  PRODUCT_DATA.forEach(p => { qty[p.id] = 0; });
   document.getElementById('cart-count').textContent = 0;
   selectedDate = null;
   selectedTime = null;
@@ -1703,6 +1861,7 @@ function resetOrder() {
   document.getElementById('success-screen').classList.remove('show');
   buildDateGrid();
   buildTimeGrid();
+  selectCat('all');
   goStep(1);
   window.scrollTo(0,0);
 }
@@ -1718,11 +1877,53 @@ document.getElementById('cust-phone').addEventListener('input', function() {
 });
 
 // ──────────────────────────────────
+// TODAY'S EVENT
+// ──────────────────────────────────
+function buildEventSection() {
+  const today = new Date();
+  const days = ['일','월','화','수','목','금','토'];
+  document.getElementById('event-today-date').textContent =
+    `${today.getMonth()+1}월 ${today.getDate()}일 (${days[today.getDay()]})`;
+
+  // 배너
+  const banner = CONFIG.eventBanner;
+  if (banner) {
+    document.getElementById('event-banner').style.display = 'flex';
+    document.getElementById('event-banner-icon').textContent = banner.icon;
+    document.getElementById('event-banner-title').textContent = banner.title;
+    document.getElementById('event-banner-sub').textContent = banner.sub;
+  }
+
+  // 품목 목록
+  const list = document.getElementById('event-items-list');
+  const items = CONFIG.eventItems;
+  if (!items || items.length === 0) {
+    list.innerHTML = `<div class="event-empty"><div class="ic">📋</div>오늘 예정된 행사가 없어요.<br>매일 업데이트됩니다!</div>`;
+    return;
+  }
+  list.innerHTML = items.map(it => `
+    <div class="event-item" onclick="goPage('order')">
+      <div class="event-item-emoji">${it.emoji}</div>
+      <div class="event-item-info">
+        <div class="event-item-name">${it.name}</div>
+        <div class="event-item-desc">${it.desc}</div>
+      </div>
+      <div class="event-item-right">
+        <div class="event-item-tag">${it.tag}</div>
+        <div class="event-item-price ${it.price === '문의' ? 'inquiry' : ''}">${it.price === '문의' ? '가격 문의' : it.price}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ──────────────────────────────────
 // INIT
 // ──────────────────────────────────
 buildDateGrid();
 buildTimeGrid();
 buildHoursCard();
+buildEventSection();
+renderProductGrid();
 </script>
 
 </body>
