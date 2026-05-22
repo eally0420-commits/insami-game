@@ -993,6 +993,10 @@
       font-weight: 800;
       margin-bottom: 4px;
     }
+    .event-item-tag.tag-fresh { background: #E8F5E9; color: #2E7D32; }
+    .event-item-tag.tag-popular { background: #FFF3E0; color: #E65100; }
+    .event-item-tag.tag-gift { background: #F3E5F5; color: #7B1FA2; }
+    .event-item-tag.tag-recommend { background: #E3F2FD; color: #1565C0; }
     .event-item-price {
       font-size: 15px;
       font-weight: 900;
@@ -1517,16 +1521,17 @@
 const CONFIG = {
   // 오늘의 행사 배너 (없으면 banner: null)
   eventBanner: {
-    icon: '🎉',
-    title: '오늘의 특별 행사',
-    sub: '매일 신선하게 들어오는 당일 입고 한우\n오늘만의 특가 품목을 확인하세요!'
+    icon: '🐄',
+    title: '매일 새벽 직입! 오늘의 추천',
+    sub: '당일 아침 직접 입고한 신선 한우 & 국내산 고기\n수량이 한정되어 있으니 서두르세요!'
   },
 
   // 오늘의 행사 품목 (없애려면 [] 로 비우기)
   eventItems: [
-    { emoji: '🥩', name: '한우 등심 특가', desc: '1++ 등급 · 당일 입고 · 200g', tag: '오늘만', price: '문의' },
-    { emoji: '🍖', name: '한우 갈비 세트', desc: '1+ 등급 · 선물용 포장 가능 · 500g', tag: '행사', price: '문의' },
-    { emoji: '🥓', name: '국내산 삼겹살', desc: '두툼하게 썰어드려요 · 300g', tag: '인기', price: '문의' },
+    { emoji: '🥩', name: '한우 1++ 등심', desc: '오늘 새벽 입고 · 최상급 마블링 · 100g 단위', tag: '당일입고', price: '문의' },
+    { emoji: '🦴', name: '한우 사골 세트', desc: '진한 국물 보장 · 2kg 세트 · 온 가족 보양식', tag: '추천', price: '문의' },
+    { emoji: '🥓', name: '국내산 삼겹살', desc: '두께 선택 가능 · 당일 신선 · 300g 단위', tag: '인기', price: '문의' },
+    { emoji: '🍖', name: '한우 갈비', desc: '선물 포장 가능 · 명절·기념일 특선 · 500g', tag: '선물용', price: '문의' },
   ],
   phone: '041-555-7747',
   naverMapUrl: 'https://naver.me/xHEmKJkl',
@@ -1947,6 +1952,7 @@ function buildEventSection() {
     list.innerHTML = `<div class="event-empty"><div class="ic">📋</div>오늘 예정된 행사가 없어요.<br>매일 업데이트됩니다!</div>`;
     return;
   }
+  const tagClass = { '당일입고': 'tag-fresh', '인기': 'tag-popular', '선물용': 'tag-gift', '추천': 'tag-recommend' };
   list.innerHTML = items.map(it => `
     <div class="event-item" onclick="goPage('order')">
       <div class="event-item-emoji">${it.emoji}</div>
@@ -1955,8 +1961,8 @@ function buildEventSection() {
         <div class="event-item-desc">${it.desc}</div>
       </div>
       <div class="event-item-right">
-        <div class="event-item-tag">${it.tag}</div>
-        <div class="event-item-price ${it.price === '문의' ? 'inquiry' : ''}">${it.price === '문의' ? '가격 문의' : it.price}</div>
+        <div class="event-item-tag ${tagClass[it.tag] || ''}">${it.tag}</div>
+        <div class="event-item-price ${it.price === '문의' ? 'inquiry' : ''}">${it.price === '문의' ? '전화 문의' : it.price}</div>
       </div>
     </div>
   `).join('');
