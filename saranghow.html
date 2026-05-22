@@ -1875,6 +1875,14 @@
         <p>사랑하우 회원이세요</p>
       </div>
       <div class="member-body">
+        <!-- 신규 가입 환영 쿠폰 -->
+        <div id="welcome-coupon" style="display:none; background:linear-gradient(135deg,#FF8C00,#FFB347); border-radius:var(--radius); padding:18px 20px; margin-bottom:16px; text-align:center; box-shadow:0 4px 16px rgba(255,140,0,0.35);">
+          <div style="font-size:28px; margin-bottom:6px;">🎁</div>
+          <div style="font-size:16px; font-weight:900; color:white; margin-bottom:4px;">가입 축하 쿠폰!</div>
+          <div style="font-size:28px; font-weight:900; color:white; font-family:'Jua',sans-serif;">1,000원</div>
+          <div style="font-size:12px; color:rgba(255,255,255,0.85); margin-top:6px; line-height:1.5;">사랑하우 회원이 되신 것을 환영해요 🥩<br>1,000P가 바로 적립됐어요!</div>
+        </div>
+
         <div class="points-display">
           <div class="points-greeting">내 포인트</div>
           <div class="points-num" id="profile-points">0</div>
@@ -2560,19 +2568,19 @@ async function doRegister() {
   try {
     const data = {
       name, phone,
-      points: 0,
+      points: 1000,
       joinedAt: firebase.firestore.FieldValue.serverTimestamp()
     };
     await db.collection('customers').doc(phone).set(data);
     data.joinedAt = new Date();
-    showProfile(data);
+    showProfile(data, true);
   } catch(e) {
     showErr('reg-err', '가입 중 오류가 발생했어요. 다시 시도해 주세요.');
   }
   setLoading('btn-register', false);
 }
 
-function showProfile(data) {
+function showProfile(data, isNew) {
   document.getElementById('profile-welcome').textContent = data.name + '님, 안녕하세요!';
   document.getElementById('profile-name').textContent = data.name;
   document.getElementById('profile-phone-disp').textContent =
@@ -2581,6 +2589,8 @@ function showProfile(data) {
   const joined = data.joinedAt?.toDate ? data.joinedAt.toDate() : (data.joinedAt || new Date());
   document.getElementById('profile-joined').textContent =
     `${joined.getFullYear()}년 ${joined.getMonth()+1}월 ${joined.getDate()}일`;
+  const coupon = document.getElementById('welcome-coupon');
+  coupon.style.display = isNew ? '' : 'none';
   showView('mv-profile');
 }
 
