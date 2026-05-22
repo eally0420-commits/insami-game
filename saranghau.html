@@ -903,6 +903,88 @@
       background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
     }
 
+    /* ─── BRAND STORY ─── */
+    .brand-story {
+      padding: 20px 16px 16px;
+      background: #FFFAF4;
+    }
+    .brand-story-title {
+      font-size: 17px;
+      font-weight: 900;
+      color: var(--text-dark);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand-story-title::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 18px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+    .brand-story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .bs-item {
+      background: white;
+      border-radius: 12px;
+      padding: 14px 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+    .bs-icon { font-size: 26px; flex-shrink: 0; line-height: 1; }
+    .bs-label { font-size: 13px; font-weight: 800; color: var(--text-dark); }
+    .bs-sub { font-size: 11px; color: var(--text-light); margin-top: 3px; line-height: 1.4; }
+
+    /* ─── GRADE BADGE ─── */
+    .grade-badge {
+      display: inline-block;
+      border-radius: 5px;
+      padding: 1px 7px;
+      font-size: 11px;
+      font-weight: 800;
+      margin-top: 4px;
+    }
+    .grade-hanwoo { background: #FFF0F0; color: #8B1A1A; }
+    .grade-import { background: #E3F2FD; color: #1565C0; }
+    .grade-domestic { background: #E8F5E9; color: #2E7D32; }
+
+    /* ─── TRUST BADGES ─── */
+    .trust-section {
+      margin: 0 16px 16px;
+      background: linear-gradient(135deg, #6B0F1F, #9B2335);
+      border-radius: var(--radius);
+      padding: 18px 16px;
+    }
+    .trust-title {
+      color: var(--cream-brand);
+      font-size: 15px;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+    .trust-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .trust-item {
+      background: rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .trust-ic { font-size: 20px; }
+    .trust-text { font-size: 12px; color: var(--cream-brand); font-weight: 700; line-height: 1.4; }
+
     /* ─── TODAY'S EVENT ─── */
     .event-section {
       padding: 20px 16px 8px;
@@ -1096,6 +1178,43 @@
       <div class="hero-cta">
         <button class="btn-primary" onclick="goPage('order')">픽업 주문하기</button>
         <button class="btn-outline" onclick="goPage('info')">매장 정보</button>
+      </div>
+    </div>
+
+    <div class="gold-line"></div>
+
+    <!-- 브랜드 스토리 -->
+    <div class="brand-story">
+      <div class="brand-story-title">사랑하우 이야기</div>
+      <div class="brand-story-grid">
+        <div class="bs-item">
+          <div class="bs-icon">👨‍👩‍👧</div>
+          <div>
+            <div class="bs-label">가족이 운영해요</div>
+            <div class="bs-sub">정성을 담아 직접 운영하는 가족 정육점</div>
+          </div>
+        </div>
+        <div class="bs-item">
+          <div class="bs-icon">🌅</div>
+          <div>
+            <div class="bs-label">매일 새벽 직입</div>
+            <div class="bs-sub">냉동 없이 당일 신선 입고만 취급해요</div>
+          </div>
+        </div>
+        <div class="bs-item">
+          <div class="bs-icon">🔪</div>
+          <div>
+            <div class="bs-label">장인이 직접 손질</div>
+            <div class="bs-sub">오랜 경력의 전문가가 정성껏 정형</div>
+          </div>
+        </div>
+        <div class="bs-item">
+          <div class="bs-icon">🏅</div>
+          <div>
+            <div class="bs-label">등급 보장</div>
+            <div class="bs-sub">1++ · 1+ 한우만 엄선해서 들여와요</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1424,6 +1543,29 @@
       </div>
 
     </div>
+    <!-- 사랑하우의 약속 -->
+    <div class="trust-section">
+      <div class="trust-title">사랑하우의 약속</div>
+      <div class="trust-grid">
+        <div class="trust-item">
+          <div class="trust-ic">🌅</div>
+          <div class="trust-text">매일 새벽<br>당일 직입</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-ic">🏅</div>
+          <div class="trust-text">1++ · 1+<br>등급 보장</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-ic">🔪</div>
+          <div class="trust-text">장인이 직접<br>손질·정형</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-ic">🎁</div>
+          <div class="trust-text">선물 포장<br>전문</div>
+        </div>
+      </div>
+    </div>
+
     <div style="height:16px;"></div>
   </div><!-- /page-info -->
 
@@ -1443,7 +1585,7 @@
     <div class="contact-direct">
       <div class="ct-label">전화 주문 · 문의</div>
       <div class="ct-num" id="contact-phone">000-0000-0000</div>
-      <div class="ct-sub">평일 09:00 ~ 19:00 · 토요일 09:00 ~ 18:00 · 일요일 휴무</div>
+      <div class="ct-sub">매일 06:30 ~ 19:00 · 연중무휴</div>
       <a class="btn-call" href="tel:000-0000-0000" id="contact-phone-link">📞 바로 전화하기</a>
     </div>
 
@@ -1686,12 +1828,20 @@ function renderProductGrid() {
       html += `<div class="cat-divider" style="color:${meta.color}">${meta.label}</div>`;
       lastCat = p.cat;
     }
+    const gradeBadge = {
+      '한우':   { cls: 'grade-hanwoo',   txt: '🏅 국내산 한우' },
+      '소':     { cls: 'grade-import',   txt: '✈️ 수입산' },
+      '돼지':   { cls: 'grade-domestic', txt: '🐷 국내산' },
+      '부산물': { cls: p.name.includes('돼지') ? 'grade-domestic' : 'grade-hanwoo',
+                  txt: p.name.includes('돼지') ? '🐷 국내산' : '🏅 국내산 한우' },
+    }[p.cat] || { cls: '', txt: '' };
     html += `
       <div class="product-row">
         <div class="product-emoji">${p.emoji}</div>
         <div class="product-detail">
           <div class="product-name">${p.name}</div>
           <div class="product-desc">${p.desc}</div>
+          <span class="grade-badge ${gradeBadge.cls}">${gradeBadge.txt}</span>
           <div class="product-price-row">가격 문의</div>
         </div>
         <div class="qty-control">
