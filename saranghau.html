@@ -9,6 +9,9 @@
   <meta name="apple-mobile-web-app-title" content="사랑하우" />
   <link rel="manifest" href="manifest.json" />
   <title>사랑하우 정육 - 사랑을 담은 한우</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #9B2335;
@@ -32,11 +35,26 @@
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     body {
-      font-family: -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', BlinkMacSystemFont, sans-serif;
+      font-family: 'Nanum Gothic', 'Apple SD Gothic Neo', sans-serif;
       background: var(--cream);
       color: var(--text-dark);
       min-height: 100vh;
       overflow-x: hidden;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* 제목, 강조 텍스트에 주아(Jua) 폰트 */
+    h1, h2, h3,
+    .logo-kr, .hero-title, .section-title,
+    .order-header h2, .info-hero h2, .links-hero h2,
+    .product-name, .event-item-name, .event-banner-title,
+    .confirm-title, .success-title, .event-title,
+    .quick-text-label, .info-card-header .title,
+    .link-card-name, .btn-primary, .btn-next, .btn-submit,
+    .cart-bar-right, .btn-new-order, .nav-label,
+    .app-header .logo-kr {
+      font-family: 'Jua', 'Nanum Gothic', sans-serif;
     }
 
     /* ─── TOP HEADER ─── */
@@ -110,10 +128,10 @@
     .nav-item:active { background: var(--warm-white); }
     .nav-icon { font-size: 22px; line-height: 1; }
     .nav-label {
-      font-size: 10px;
-      font-weight: 600;
+      font-size: 11px;
+      font-weight: 700;
       color: var(--text-light);
-      letter-spacing: 0.5px;
+      letter-spacing: 0.3px;
     }
     .nav-item.active .nav-icon { filter: none; }
     .nav-item.active .nav-label { color: var(--primary); }
@@ -429,9 +447,9 @@
     }
     .product-emoji { font-size: 36px; flex-shrink: 0; }
     .product-detail { flex: 1; min-width: 0; }
-    .product-name { font-size: 14px; font-weight: 800; color: var(--text-dark); }
-    .product-desc { font-size: 11px; color: var(--text-light); margin-top: 2px; }
-    .product-price-row { font-size: 13px; font-weight: 800; color: var(--primary); margin-top: 4px; }
+    .product-name { font-size: 15px; font-weight: 800; color: var(--text-dark); }
+    .product-desc { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+    .product-price-row { font-size: 14px; font-weight: 800; color: var(--primary); margin-top: 4px; }
     .qty-control {
       display: flex;
       align-items: center;
