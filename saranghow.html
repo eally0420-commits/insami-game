@@ -2532,21 +2532,50 @@ function setLoading(btnId, loading) {
 }
 
 // ─────────────────────────────────────────
+// localStorage 헬퍼 (Firebase 없을 때 사용)
+// ─────────────────────────────────────────
+const LS_KEY = 'saranghow_customers';
+
+function lsGetAll() {
+  try { return JSON.parse(localStorage.getItem(LS_KEY) || '{}'); } catch { return {}; }
+}
+function lsGetCustomer(phone) { return lsGetAll()[phone] || null; }
+function lsSaveCustomer(data) {
+  const all = lsGetAll();
+  all[data.phone] = data;
+  localStorage.setItem(LS_KEY, JSON.stringify(all));
+}
+function lsUpdatePoints(phone, delta) {
+  const all = lsGetAll();
+  if (all[phone]) {
+    all[phone].points = Math.max(0, (all[phone].points || 0) + delta);
+    localStorage.setItem(LS_KEY, JSON.stringify(all));
+    return all[phone].points;
+  }
+  return null;
+}
+function lsAllList() { return Object.values(lsGetAll()).sort((a,b) => (b.points||0)-(a.points||0)); }
+
+// ─────────────────────────────────────────
 // MEMBER FUNCTIONS
 // ─────────────────────────────────────────
 async function doLookup() {
   const phone = rawPhone(document.getElementById('inp-lookup-phone').value.trim());
   showErr('lookup-err', '');
   if (phone.length < 10) { showErr('lookup-err', '올바른 전화번호를 입력해 주세요'); return; }
-  if (!db) { showErr('lookup-err', 'Firebase 설정이 필요해요 (관리자 문의)'); return; }
 
   setLoading('btn-lookup', true);
   try {
-    const snap = await db.collection('customers').doc(phone).get();
-    if (snap.exists) {
-      showProfile(snap.data());
+    let customer = null;
+    if (db) {
+      const snap = await db.collection('customers').doc(phone).get();
+      customer = snap.exists ? snap.data() : null;
     } else {
-      // 신규 고객
+      customer = lsGetCustomer(phone);
+    }
+    if (customer) {
+      showProfile(customer);
+    } else {
       document.getElementById('inp-reg-phone').value =
         document.getElementById('inp-lookup-phone').value;
       showView('mv-register');
@@ -2566,13 +2595,14 @@ async function doRegister() {
 
   setLoading('btn-register', true);
   try {
-    const data = {
-      name, phone,
-      points: 1000,
-      joinedAt: firebase.firestore.FieldValue.serverTimestamp()
-    };
-    await db.collection('customers').doc(phone).set(data);
-    data.joinedAt = new Date();
+    const data = { name, phone, points: 1000, joinedAt: new Date().toISOString() };
+    if (db) {
+      await db.collection('customers').doc(phone).set({
+        ...data, joinedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    } else {
+      lsSaveCustomer(data);
+    }
     showProfile(data, true);
   } catch(e) {
     showErr('reg-err', '가입 중 오류가 발생했어요. 다시 시도해 주세요.');
@@ -2586,7 +2616,8 @@ function showProfile(data, isNew) {
   document.getElementById('profile-phone-disp').textContent =
     data.phone.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3');
   document.getElementById('profile-points').textContent = (data.points || 0).toLocaleString();
-  const joined = data.joinedAt?.toDate ? data.joinedAt.toDate() : (data.joinedAt || new Date());
+  const joined = data.joinedAt?.toDate ? data.joinedAt.toDate()
+    : (typeof data.joinedAt === 'string' ? new Date(data.joinedAt) : (data.joinedAt || new Date()));
   document.getElementById('profile-joined').textContent =
     `${joined.getFullYear()}년 ${joined.getMonth()+1}월 ${joined.getDate()}일`;
   const coupon = document.getElementById('welcome-coupon');
@@ -2627,14 +2658,13 @@ async function doAdminLogin() {
 }
 
 async function loadAdminDashboard() {
-  if (!db) {
-    document.getElementById('admin-customer-list').innerHTML =
-      '<div class="admin-empty">Firebase 설정이 필요해요</div>';
-    return;
-  }
   try {
-    const snap = await db.collection('customers').orderBy('points', 'desc').get();
-    allCustomers = snap.docs.map(d => d.data());
+    if (db) {
+      const snap = await db.collection('customers').orderBy('points', 'desc').get();
+      allCustomers = snap.docs.map(d => d.data());
+    } else {
+      allCustomers = lsAllList();
+    }
     updateAdminStats();
     renderAdminList(allCustomers);
   } catch(e) {
@@ -2692,15 +2722,17 @@ function filterCustomers() {
 }
 
 async function adjustPoints(phone, delta) {
-  if (!db) return;
   try {
-    await db.collection('customers').doc(phone).update({
-      points: firebase.firestore.FieldValue.increment(delta)
-    });
+    if (db) {
+      await db.collection('customers').doc(phone).update({
+        points: firebase.firestore.FieldValue.increment(delta)
+      });
+    } else {
+      lsUpdatePoints(phone, delta);
+    }
     const c = allCustomers.find(x => x.phone === phone);
     if (c) {
-      c.points = (c.points || 0) + delta;
-      if (c.points < 0) c.points = 0;
+      c.points = Math.max(0, (c.points || 0) + delta);
       const el = document.getElementById('apts-' + phone);
       if (el) el.textContent = c.points.toLocaleString();
       updateAdminStats();
