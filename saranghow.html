@@ -159,10 +159,13 @@
     ═══════════════════════════════ */
     .hero {
       background: linear-gradient(170deg, #6B0F1F 0%, #9B2335 45%, #B52A3E 100%);
-      padding: 32px 24px 36px;
-      text-align: center;
+      padding: 20px 16px 24px;
       position: relative;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-height: 200px;
     }
     .hero::before {
       content: '';
@@ -171,64 +174,123 @@
       background:
         radial-gradient(ellipse at 20% 50%, rgba(237,224,204,0.06) 0%, transparent 60%),
         radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.04) 0%, transparent 50%);
+      pointer-events: none;
     }
-    .hero-logo-big {
+
+    /* 슬라이드 */
+    .hero-slide {
       position: relative;
+      flex-shrink: 0;
+      width: 140px;
+      height: 140px;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+      z-index: 1;
+    }
+    .hero-slide img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+    }
+    .hero-slide img.active { opacity: 1; }
+    .slide-dots {
+      position: absolute;
+      bottom: 6px;
+      left: 0; right: 0;
       display: flex;
       justify-content: center;
-      margin-bottom: 14px;
+      gap: 5px;
+      z-index: 2;
+    }
+    .slide-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.45);
+      transition: background 0.3s;
+    }
+    .slide-dot.active { background: white; }
+
+    /* 오른쪽 텍스트 */
+    .hero-right {
+      flex: 1;
+      min-width: 0;
+      position: relative;
+      z-index: 1;
     }
     .hero-badge {
       display: inline-block;
-      background: rgba(237,224,204,0.15);
+      background: rgba(237,224,204,0.18);
       border: 1px solid rgba(237,224,204,0.4);
       border-radius: 20px;
-      padding: 5px 16px;
-      font-size: 11px;
+      padding: 3px 10px;
+      font-size: 10px;
       color: var(--cream-brand);
-      letter-spacing: 2px;
+      letter-spacing: 1.5px;
       font-weight: 700;
-      margin-bottom: 14px;
-      backdrop-filter: blur(4px);
+      margin-bottom: 8px;
     }
     .hero-title {
-      font-size: 38px;
+      font-size: 26px;
       font-weight: 900;
       color: var(--cream-brand);
-      letter-spacing: 3px;
-      line-height: 1.1;
-      position: relative;
+      letter-spacing: 1px;
+      line-height: 1.15;
     }
     .hero-title-en {
-      font-size: 14px;
+      font-size: 12px;
       color: rgba(237,224,204,0.6);
-      letter-spacing: 4px;
-      margin-top: 4px;
+      letter-spacing: 3px;
+      margin-top: 2px;
       font-style: italic;
-      position: relative;
-    }
-    .hero-subtitle {
-      font-size: 14px;
-      color: rgba(237,224,204,0.85);
-      margin-top: 12px;
-      line-height: 1.7;
-      position: relative;
     }
     .hero-divider {
-      width: 40px;
+      width: 30px;
       height: 2px;
       background: var(--gold-light);
-      margin: 16px auto;
+      margin: 10px 0;
       opacity: 0.7;
-      position: relative;
+    }
+    .hero-subtitle {
+      font-size: 12px;
+      color: rgba(237,224,204,0.85);
+      line-height: 1.6;
     }
     .hero-cta {
-      margin-top: 24px;
+      margin-top: 12px;
       display: flex;
-      gap: 12px;
-      justify-content: center;
-      position: relative;
+      gap: 8px;
     }
+
+    /* 단축 버튼 */
+    .hero-shortcuts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      background: white;
+      border-bottom: 1px solid var(--border);
+    }
+    .hsc-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 4px 12px;
+      gap: 5px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      border-right: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    .hsc-btn:last-child { border-right: none; }
+    .hsc-btn:active { background: var(--warm-white); }
+    .hsc-icon { font-size: 22px; line-height: 1; }
+    .hsc-label { font-size: 11px; font-weight: 800; color: var(--text-dark); font-family: 'Jua', sans-serif; }
     .btn-primary {
       background: var(--cream-brand);
       color: var(--primary);
@@ -1354,18 +1416,45 @@
   <div class="page active" id="page-home">
 
     <div class="hero">
-      <div class="hero-logo-big">
-        <img src="logo.png" alt="사랑하우 로고" style="width:140px;height:140px;object-fit:contain;border-radius:20px;" />
+      <!-- 왼쪽: 슬라이드 -->
+      <div class="hero-slide" id="hero-slide">
+        <img src="logo.png"   alt="사랑하우 로고"  class="active" />
+        <img src="photo1.png" alt="사랑하우 한우" />
+        <img src="photo2.png" alt="사랑하우" />
+        <div class="slide-dots" id="slide-dots">
+          <div class="slide-dot active"></div>
+          <div class="slide-dot"></div>
+          <div class="slide-dot"></div>
+        </div>
       </div>
-      <div class="hero-badge">프리미엄 한우 전문점</div>
-      <div class="hero-title">(주)사랑하우</div>
-      <div class="hero-title-en">Saranghow</div>
-      <div class="hero-divider"></div>
-      <div class="hero-subtitle">사랑을 담아 고른 최상급 한우<br>직접 픽업하고 더 신선하게</div>
-      <div class="hero-cta">
-        <button class="btn-primary" onclick="goPage('order')">픽업 주문하기</button>
-        <button class="btn-outline" onclick="goPage('info')">매장 정보</button>
+      <!-- 오른쪽: 텍스트 -->
+      <div class="hero-right">
+        <div class="hero-badge">프리미엄 한우 전문점</div>
+        <div class="hero-title">(주)사랑하우</div>
+        <div class="hero-title-en">Saranghow</div>
+        <div class="hero-divider"></div>
+        <div class="hero-subtitle">사랑을 담아 고른<br>최상급 한우<br>직접 픽업하고 더 신선하게</div>
       </div>
+    </div>
+
+    <!-- 단축 버튼 -->
+    <div class="hero-shortcuts">
+      <button class="hsc-btn" onclick="goPage('order')">
+        <span class="hsc-icon">🛒</span>
+        <span class="hsc-label">픽업주문</span>
+      </button>
+      <button class="hsc-btn" onclick="openNaverMap()">
+        <span class="hsc-icon">📍</span>
+        <span class="hsc-label">오시는길</span>
+      </button>
+      <button class="hsc-btn" onclick="openKakao()">
+        <span class="hsc-icon">💬</span>
+        <span class="hsc-label">카카오톡</span>
+      </button>
+      <button class="hsc-btn" onclick="callPhone()">
+        <span class="hsc-icon">📞</span>
+        <span class="hsc-label">전화문의</span>
+      </button>
     </div>
 
     <div class="gold-line"></div>
@@ -1431,25 +1520,6 @@
       <div class="event-items" id="event-items-list"></div>
     </div>
 
-    <!-- 사진 갤러리 -->
-    <div class="photo-gallery">
-      <div class="photo-gallery-title">🥩 사랑하우 한우</div>
-      <div class="photo-scroll">
-        <div class="photo-card">
-          <img src="photo1.png" alt="사랑하우 한우" />
-          <div class="photo-card-label">사랑을 담은 최상급 한우</div>
-        </div>
-        <div class="photo-card">
-          <img src="photo2.png" alt="사랑하우" />
-          <div class="photo-card-label">(주)사랑하우 · Saranghow</div>
-        </div>
-        <div class="photo-card">
-          <img src="logo.png" alt="사랑하우 로고" />
-          <div class="photo-card-label">Hanwoo, made with love</div>
-        </div>
-      </div>
-    </div>
-
     <div class="notice-banner">
       <div class="notice-icon">📢</div>
       <div>
@@ -1505,42 +1575,6 @@
       </div>
     </div>
 
-    <div class="divider"></div>
-
-    <div class="section" style="padding-bottom:8px;">
-      <div class="section-title">바로가기</div>
-      <div class="section-subtitle">사랑하우 채널로 연결하기</div>
-    </div>
-    <div class="quick-grid">
-      <div class="quick-card" onclick="goPage('links')">
-        <div class="quick-icon">📍</div>
-        <div>
-          <div class="quick-text-label">네이버 지도</div>
-          <div class="quick-text-sub">오시는 길</div>
-        </div>
-      </div>
-      <div class="quick-card" onclick="goPage('links')">
-        <div class="quick-icon">📸</div>
-        <div>
-          <div class="quick-text-label">인스타그램</div>
-          <div class="quick-text-sub">상품 구경하기</div>
-        </div>
-      </div>
-      <div class="quick-card" onclick="goPage('links')">
-        <div class="quick-icon">💬</div>
-        <div>
-          <div class="quick-text-label">카카오톡</div>
-          <div class="quick-text-sub">채널 문의</div>
-        </div>
-      </div>
-      <div class="quick-card" onclick="callPhone()">
-        <div class="quick-icon">📞</div>
-        <div>
-          <div class="quick-text-label">전화 문의</div>
-          <div class="quick-text-sub">바로 연결</div>
-        </div>
-      </div>
-    </div>
     <div style="height:16px;"></div>
 
   </div><!-- /page-home -->
@@ -2451,6 +2485,22 @@ function buildEventSection() {
     </div>
   `).join('');
 }
+
+// ──────────────────────────────────
+// HERO SLIDESHOW
+// ──────────────────────────────────
+(function initSlideshow() {
+  const imgs = document.querySelectorAll('#hero-slide img');
+  const dots = document.querySelectorAll('#slide-dots .slide-dot');
+  let cur = 0;
+  setInterval(() => {
+    imgs[cur].classList.remove('active');
+    dots[cur].classList.remove('active');
+    cur = (cur + 1) % imgs.length;
+    imgs[cur].classList.add('active');
+    dots[cur].classList.add('active');
+  }, 3000);
+})();
 
 // ──────────────────────────────────
 // INIT
