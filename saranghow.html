@@ -159,13 +159,13 @@
     ═══════════════════════════════ */
     .hero {
       background: linear-gradient(170deg, #6B0F1F 0%, #9B2335 45%, #B52A3E 100%);
-      padding: 20px 16px 24px;
+      padding: 20px 14px 24px 14px;
       position: relative;
       overflow: hidden;
       display: flex;
       align-items: center;
-      gap: 16px;
-      min-height: 200px;
+      gap: 14px;
+      min-height: 220px;
     }
     .hero::before {
       content: '';
@@ -181,8 +181,8 @@
     .hero-slide {
       position: relative;
       flex-shrink: 0;
-      width: 140px;
-      height: 140px;
+      width: 170px;
+      height: 170px;
       border-radius: 18px;
       overflow: hidden;
       box-shadow: 0 6px 24px rgba(0,0,0,0.35);
@@ -221,6 +221,7 @@
       min-width: 0;
       position: relative;
       z-index: 1;
+      overflow: hidden;
     }
     .hero-badge {
       display: inline-block;
@@ -230,67 +231,41 @@
       padding: 3px 10px;
       font-size: 10px;
       color: var(--cream-brand);
-      letter-spacing: 1.5px;
+      letter-spacing: 1px;
       font-weight: 700;
       margin-bottom: 8px;
+      white-space: nowrap;
     }
     .hero-title {
-      font-size: 26px;
+      font-size: 22px;
       font-weight: 900;
       color: var(--cream-brand);
-      letter-spacing: 1px;
-      line-height: 1.15;
+      letter-spacing: 0px;
+      line-height: 1.2;
+      white-space: nowrap;
     }
     .hero-title-en {
       font-size: 12px;
       color: rgba(237,224,204,0.6);
-      letter-spacing: 3px;
+      letter-spacing: 2px;
       margin-top: 2px;
       font-style: italic;
+      white-space: nowrap;
     }
     .hero-divider {
-      width: 30px;
+      width: 28px;
       height: 2px;
       background: var(--gold-light);
-      margin: 10px 0;
+      margin: 8px 0;
       opacity: 0.7;
     }
     .hero-subtitle {
       font-size: 12px;
       color: rgba(237,224,204,0.85);
-      line-height: 1.6;
+      line-height: 1.65;
+      word-break: keep-all;
     }
-    .hero-cta {
-      margin-top: 12px;
-      display: flex;
-      gap: 8px;
-    }
-
-    /* 단축 버튼 */
-    .hero-shortcuts {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0;
-      background: white;
-      border-bottom: 1px solid var(--border);
-    }
-    .hsc-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 14px 4px 12px;
-      gap: 5px;
-      cursor: pointer;
-      border: none;
-      background: none;
-      border-right: 1px solid var(--border);
-      transition: background 0.15s;
-    }
-    .hsc-btn:last-child { border-right: none; }
-    .hsc-btn:active { background: var(--warm-white); }
-    .hsc-icon { font-size: 22px; line-height: 1; }
-    .hsc-label { font-size: 11px; font-weight: 800; color: var(--text-dark); font-family: 'Jua', sans-serif; }
+    .hero-cta { display: none; }
     .btn-primary {
       background: var(--cream-brand);
       color: var(--primary);
@@ -1435,26 +1410,6 @@
         <div class="hero-divider"></div>
         <div class="hero-subtitle">사랑을 담아 고른<br>최상급 한우<br>직접 픽업하고 더 신선하게</div>
       </div>
-    </div>
-
-    <!-- 단축 버튼 -->
-    <div class="hero-shortcuts">
-      <button class="hsc-btn" onclick="goPage('order')">
-        <span class="hsc-icon">🛒</span>
-        <span class="hsc-label">픽업주문</span>
-      </button>
-      <button class="hsc-btn" onclick="openNaverMap()">
-        <span class="hsc-icon">📍</span>
-        <span class="hsc-label">오시는길</span>
-      </button>
-      <button class="hsc-btn" onclick="openKakao()">
-        <span class="hsc-icon">💬</span>
-        <span class="hsc-label">카카오톡</span>
-      </button>
-      <button class="hsc-btn" onclick="callPhone()">
-        <span class="hsc-icon">📞</span>
-        <span class="hsc-label">전화문의</span>
-      </button>
     </div>
 
     <div class="gold-line"></div>
