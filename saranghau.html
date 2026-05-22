@@ -1592,30 +1592,58 @@ function callPhone()    { window.location.href = 'tel:' + CONFIG.phone; }
 // PRODUCT DATA (카테고리별)
 // ──────────────────────────────────
 const PRODUCT_DATA = [
-  // 한우
-  { id: '등심',   cat: '한우', emoji: '🥩', name: '한우 등심',     desc: '1++ 등급 · 200g 단위' },
-  { id: '채끝',   cat: '한우', emoji: '🥩', name: '한우 채끝',     desc: '1++ 등급 · 200g 단위' },
-  { id: '안심',   cat: '한우', emoji: '🥩', name: '한우 안심',     desc: '1+ 등급 · 200g 단위' },
-  { id: '갈비',   cat: '한우', emoji: '🍖', name: '한우 갈비',     desc: '1+ 등급 · 500g 단위' },
-  { id: '불고기', cat: '한우', emoji: '🥩', name: '한우 불고기용', desc: '1등급 · 300g 단위' },
-  { id: '국거리', cat: '한우', emoji: '🥣', name: '한우 국거리',   desc: '1등급 · 300g 단위' },
-  // 소(수입)
+  // 🐄 한우
+  { id: '등심',     cat: '한우', emoji: '🥩', name: '한우 등심',     desc: '1++ 등급 · 200g 단위' },
+  { id: '채끝',     cat: '한우', emoji: '🥩', name: '한우 채끝',     desc: '1++ 등급 · 200g 단위' },
+  { id: '안심',     cat: '한우', emoji: '🥩', name: '한우 안심',     desc: '1+ 등급 · 200g 단위' },
+  { id: '갈비',     cat: '한우', emoji: '🍖', name: '한우 갈비',     desc: '1+ 등급 · 500g 단위' },
+  { id: '불고기',   cat: '한우', emoji: '🥩', name: '한우 불고기용', desc: '1등급 · 300g 단위' },
+  { id: '국거리',   cat: '한우', emoji: '🥣', name: '한우 국거리',   desc: '1등급 · 300g 단위' },
+  { id: '장조림',   cat: '한우', emoji: '🥩', name: '한우 장조림용', desc: '1등급 · 300g 단위' },
+  { id: '우둔',     cat: '한우', emoji: '🥩', name: '한우 우둔',     desc: '1등급 · 200g 단위' },
+  { id: '목심',     cat: '한우', emoji: '🥩', name: '한우 목심',     desc: '1등급 · 300g 단위' },
+
+  // 🌍 소(수입)
   { id: '척아이롤', cat: '소', emoji: '🥩', name: '미국산 척아이롤', desc: '미국산 · 200g 단위' },
   { id: '부채살',   cat: '소', emoji: '🥩', name: '미국산 부채살',   desc: '미국산 · 200g 단위' },
+  { id: '수입갈비', cat: '소', emoji: '🍖', name: '미국산 LA갈비',   desc: '미국산 · 500g 단위' },
+  { id: '수입등심', cat: '소', emoji: '🥩', name: '미국산 등심',     desc: '미국산 · 200g 단위' },
+  { id: '수입안심', cat: '소', emoji: '🥩', name: '호주산 안심',     desc: '호주산 · 200g 단위' },
   { id: '양고기',   cat: '소', emoji: '🍖', name: '호주산 양고기',   desc: '호주산 · 300g 단위' },
-  { id: '수입갈비', cat: '소', emoji: '🍖', name: '미국산 LA갈비',  desc: '미국산 · 500g 단위' },
-  // 돼지
+  { id: '수입국거리',cat: '소', emoji: '🥣', name: '미국산 국거리',  desc: '미국산 · 300g 단위' },
+  { id: '수입불고기',cat: '소', emoji: '🥩', name: '미국산 불고기용',desc: '미국산 · 300g 단위' },
+
+  // 🐷 돼지
   { id: '삼겹살',   cat: '돼지', emoji: '🥓', name: '국내산 삼겹살',  desc: '국내산 · 300g 단위' },
   { id: '목살',     cat: '돼지', emoji: '🍖', name: '국내산 목살',    desc: '국내산 · 300g 단위' },
   { id: '항정살',   cat: '돼지', emoji: '🥩', name: '국내산 항정살',  desc: '국내산 · 300g 단위' },
   { id: '앞다리살', cat: '돼지', emoji: '🍖', name: '국내산 앞다리살',desc: '국내산 · 300g 단위' },
   { id: '갈매기살', cat: '돼지', emoji: '🥩', name: '국내산 갈매기살',desc: '국내산 · 200g 단위' },
-  // 부산물
-  { id: '사골',   cat: '부산물', emoji: '🦴', name: '한우 사골',        desc: '국내산 한우 · 1kg 단위' },
-  { id: '도가니', cat: '부산물', emoji: '🦴', name: '한우 도가니',      desc: '국내산 한우 · 500g 단위' },
-  { id: '꼬리',   cat: '부산물', emoji: '🦴', name: '한우 꼬리',        desc: '국내산 한우 · 1kg 단위' },
-  { id: '돼지뼈', cat: '부산물', emoji: '🦴', name: '돼지뼈 (감자탕용)',desc: '국내산 · 1kg 단위' },
-  { id: '족발',   cat: '부산물', emoji: '🍖', name: '돼지 앞족',        desc: '국내산 · 1개 단위' },
+  { id: '등갈비',   cat: '돼지', emoji: '🍖', name: '국내산 등갈비',  desc: '국내산 · 500g 단위' },
+  { id: '뒷다리',   cat: '돼지', emoji: '🍖', name: '국내산 뒷다리',  desc: '국내산 · 300g 단위' },
+  { id: '돼지불고기',cat: '돼지', emoji: '🥩', name: '돼지 불고기용', desc: '국내산 · 300g 단위' },
+  { id: '수육용',   cat: '돼지', emoji: '🥣', name: '돼지 수육용',    desc: '국내산 · 500g 단위' },
+
+  // 🦴 부산물
+  { id: '사골',     cat: '부산물', emoji: '🦴', name: '한우 사골',         desc: '국내산 한우 · 1kg 단위' },
+  { id: '도가니',   cat: '부산물', emoji: '🦴', name: '한우 도가니',       desc: '국내산 한우 · 500g 단위' },
+  { id: '꼬리',     cat: '부산물', emoji: '🦴', name: '한우 꼬리',         desc: '국내산 한우 · 1kg 단위' },
+  { id: '우설',     cat: '부산물', emoji: '👅', name: '우설 (소 혀)',      desc: '국내산 한우 · 300g 단위' },
+  { id: '소간',     cat: '부산물', emoji: '🫀', name: '소 간',             desc: '국내산 · 300g 단위' },
+  { id: '소염통',   cat: '부산물', emoji: '🫀', name: '소 염통 (하트)',    desc: '국내산 · 300g 단위' },
+  { id: '소곱창',   cat: '부산물', emoji: '🌀', name: '소 곱창',           desc: '국내산 · 300g 단위' },
+  { id: '대창',     cat: '부산물', emoji: '🌀', name: '소 대창',           desc: '국내산 · 300g 단위' },
+  { id: '소창',     cat: '부산물', emoji: '🌀', name: '소 소창',           desc: '국내산 · 300g 단위' },
+  { id: '오소리',   cat: '부산물', emoji: '🌀', name: '오소리감투',        desc: '국내산 · 300g 단위' },
+  { id: '막창',     cat: '부산물', emoji: '🌀', name: '소 막창',           desc: '국내산 · 300g 단위' },
+  { id: '콩팥',     cat: '부산물', emoji: '🫘', name: '소 콩팥 (신장)',   desc: '국내산 · 300g 단위' },
+  { id: '허파',     cat: '부산물', emoji: '🫁', name: '소 허파',           desc: '국내산 · 300g 단위' },
+  { id: '선지',     cat: '부산물', emoji: '🍲', name: '선지',              desc: '국내산 · 500g 단위' },
+  { id: '돼지뼈',   cat: '부산물', emoji: '🦴', name: '돼지뼈 (감자탕용)',desc: '국내산 · 1kg 단위' },
+  { id: '족발',     cat: '부산물', emoji: '🍖', name: '돼지 앞족',         desc: '국내산 · 1개 단위' },
+  { id: '돼지간',   cat: '부산물', emoji: '🫀', name: '돼지 간',           desc: '국내산 · 300g 단위' },
+  { id: '돼지곱창', cat: '부산물', emoji: '🌀', name: '돼지 곱창',         desc: '국내산 · 300g 단위' },
+  { id: '돼지막창', cat: '부산물', emoji: '🌀', name: '돼지 막창',         desc: '국내산 · 300g 단위' },
 ];
 
 // ──────────────────────────────────
