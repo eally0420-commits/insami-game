@@ -856,19 +856,33 @@
 <!-- APP HEADER -->
 <header class="app-header">
   <div class="logo-wrap">
-    <!-- 하트+소 로고 SVG -->
-    <svg class="logo-svg" width="46" height="52" viewBox="0 0 60 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M30 63 C30 63 5 44 5 25 C5 14 12 7 21 7 C25.5 7 30 12 30 12 C30 12 34.5 7 39 7 C48 7 55 14 55 25 C55 44 30 63 30 63Z" stroke="#EDE0CC" stroke-width="3.5" stroke-linejoin="round" fill="none"/>
-      <path d="M19 23 C15 17 14 11 17 8 C20 5 24 10 24 17" stroke="#EDE0CC" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-      <path d="M41 23 C45 17 46 11 43 8 C40 5 36 10 36 17" stroke="#EDE0CC" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-      <ellipse cx="30" cy="38" rx="13" ry="13" fill="#EDE0CC"/>
-      <ellipse cx="18" cy="30" rx="4.5" ry="3" fill="#EDE0CC" transform="rotate(-20 18 30)"/>
-      <ellipse cx="42" cy="30" rx="4.5" ry="3" fill="#EDE0CC" transform="rotate(20 42 30)"/>
-      <circle cx="25" cy="34" r="2.2" fill="#9B2335"/>
-      <circle cx="35" cy="34" r="2.2" fill="#9B2335"/>
-      <ellipse cx="30" cy="43" rx="6" ry="4" fill="rgba(155,35,53,0.18)"/>
-      <circle cx="27" cy="43" r="1.6" fill="#9B2335"/>
-      <circle cx="33" cy="43" r="1.6" fill="#9B2335"/>
+    <!-- 사랑하우 공식 로고 SVG 재현 -->
+    <svg class="logo-svg" width="44" height="50" viewBox="0 0 110 125" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- 하트 외곽선 -->
+      <path d="M55 115 C52 112 8 82 8 46 C8 26 22 14 37 14 C44 14 51 18 55 24 C59 18 66 14 73 14 C88 14 102 26 102 46 C102 82 58 112 55 115Z"
+            fill="none" stroke="#EDE0CC" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+      <!-- 왼쪽 뿔 -->
+      <path d="M36 44 C30 36 26 26 30 19 C33 14 39 17 40 25 C41 31 40 38 38 44"
+            fill="#EDE0CC"/>
+      <!-- 오른쪽 뿔 -->
+      <path d="M74 44 C80 36 84 26 80 19 C77 14 71 17 70 25 C69 31 70 38 72 44"
+            fill="#EDE0CC"/>
+      <!-- 머리 -->
+      <ellipse cx="55" cy="72" rx="24" ry="26" fill="#EDE0CC"/>
+      <!-- 왼쪽 귀 -->
+      <ellipse cx="31" cy="58" rx="7" ry="5" fill="#EDE0CC" transform="rotate(-25 31 58)"/>
+      <!-- 오른쪽 귀 -->
+      <ellipse cx="79" cy="58" rx="7" ry="5" fill="#EDE0CC" transform="rotate(25 79 58)"/>
+      <!-- 눈 (왼) -->
+      <circle cx="46" cy="66" r="3.5" fill="#9B2335"/>
+      <!-- 눈 (오) -->
+      <circle cx="64" cy="66" r="3.5" fill="#9B2335"/>
+      <!-- 코 배경 -->
+      <ellipse cx="55" cy="82" rx="12" ry="8" fill="#C9A0A8" opacity="0.35"/>
+      <!-- 콧구멍 왼 -->
+      <ellipse cx="50" cy="82" rx="3" ry="2.5" fill="#7A1828"/>
+      <!-- 콧구멍 오 -->
+      <ellipse cx="60" cy="82" rx="3" ry="2.5" fill="#7A1828"/>
     </svg>
     <div class="logo-text">
       <div class="logo-kr">(주)사랑하우</div>
@@ -887,18 +901,19 @@
 
     <div class="hero">
       <div class="hero-logo-big">
-        <svg width="72" height="82" viewBox="0 0 60 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M30 63 C30 63 5 44 5 25 C5 14 12 7 21 7 C25.5 7 30 12 30 12 C30 12 34.5 7 39 7 C48 7 55 14 55 25 C55 44 30 63 30 63Z" stroke="#EDE0CC" stroke-width="3.5" stroke-linejoin="round" fill="none"/>
-          <path d="M19 23 C15 17 14 11 17 8 C20 5 24 10 24 17" stroke="#EDE0CC" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-          <path d="M41 23 C45 17 46 11 43 8 C40 5 36 10 36 17" stroke="#EDE0CC" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-          <ellipse cx="30" cy="38" rx="13" ry="13" fill="#EDE0CC"/>
-          <ellipse cx="18" cy="30" rx="4.5" ry="3" fill="#EDE0CC" transform="rotate(-20 18 30)"/>
-          <ellipse cx="42" cy="30" rx="4.5" ry="3" fill="#EDE0CC" transform="rotate(20 42 30)"/>
-          <circle cx="25" cy="34" r="2.2" fill="#9B2335"/>
-          <circle cx="35" cy="34" r="2.2" fill="#9B2335"/>
-          <ellipse cx="30" cy="43" rx="6" ry="4" fill="rgba(155,35,53,0.2)"/>
-          <circle cx="27" cy="43" r="1.6" fill="#9B2335"/>
-          <circle cx="33" cy="43" r="1.6" fill="#9B2335"/>
+        <svg width="90" height="102" viewBox="0 0 110 125" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M55 115 C52 112 8 82 8 46 C8 26 22 14 37 14 C44 14 51 18 55 24 C59 18 66 14 73 14 C88 14 102 26 102 46 C102 82 58 112 55 115Z"
+                fill="none" stroke="#EDE0CC" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+          <path d="M36 44 C30 36 26 26 30 19 C33 14 39 17 40 25 C41 31 40 38 38 44" fill="#EDE0CC"/>
+          <path d="M74 44 C80 36 84 26 80 19 C77 14 71 17 70 25 C69 31 70 38 72 44" fill="#EDE0CC"/>
+          <ellipse cx="55" cy="72" rx="24" ry="26" fill="#EDE0CC"/>
+          <ellipse cx="31" cy="58" rx="7" ry="5" fill="#EDE0CC" transform="rotate(-25 31 58)"/>
+          <ellipse cx="79" cy="58" rx="7" ry="5" fill="#EDE0CC" transform="rotate(25 79 58)"/>
+          <circle cx="46" cy="66" r="3.5" fill="#9B2335"/>
+          <circle cx="64" cy="66" r="3.5" fill="#9B2335"/>
+          <ellipse cx="55" cy="82" rx="12" ry="8" fill="#C9A0A8" opacity="0.35"/>
+          <ellipse cx="50" cy="82" rx="3" ry="2.5" fill="#7A1828"/>
+          <ellipse cx="60" cy="82" rx="3" ry="2.5" fill="#7A1828"/>
         </svg>
       </div>
       <div class="hero-badge">프리미엄 한우 전문점</div>
