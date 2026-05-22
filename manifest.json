@@ -2,7 +2,7 @@
   "name": "사랑하우 정육 픽업",
   "short_name": "사랑하우",
   "description": "사랑을 담은 한우 - 사랑하우 정육 픽업 서비스",
-  "start_url": "./saranghau.html",
+  "start_url": "./saranghow.html",
   "display": "standalone",
   "background_color": "#FFFAF4",
   "theme_color": "#8B1A1A",
