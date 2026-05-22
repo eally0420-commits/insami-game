@@ -849,6 +849,54 @@
       height: 3px;
       background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
     }
+
+    /* ─── PHOTO GALLERY ─── */
+    .photo-gallery {
+      padding: 20px 16px 8px;
+    }
+    .photo-gallery-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .photo-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 6px;
+    }
+    .photo-scroll::-webkit-scrollbar { display: none; }
+    .photo-card {
+      flex: 0 0 260px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(155,35,53,0.18);
+      position: relative;
+      cursor: pointer;
+    }
+    .photo-card img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s;
+    }
+    .photo-card:active img { transform: scale(0.98); }
+    .photo-card-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(90,10,20,0.85));
+      padding: 28px 14px 14px;
+      color: var(--cream-brand);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
   </style>
 </head>
 <body>
@@ -888,6 +936,25 @@
     </div>
 
     <div class="gold-line"></div>
+
+    <!-- 사진 갤러리 -->
+    <div class="photo-gallery">
+      <div class="photo-gallery-title">🥩 사랑하우 한우</div>
+      <div class="photo-scroll">
+        <div class="photo-card">
+          <img src="photo1.png" alt="사랑하우 한우" />
+          <div class="photo-card-label">사랑을 담은 최상급 한우</div>
+        </div>
+        <div class="photo-card">
+          <img src="photo2.png" alt="사랑하우" />
+          <div class="photo-card-label">(주)사랑하우 · Saranghow</div>
+        </div>
+        <div class="photo-card">
+          <img src="logo.png" alt="사랑하우 로고" />
+          <div class="photo-card-label">Hanwoo, made with love</div>
+        </div>
+      </div>
+    </div>
 
     <div class="notice-banner">
       <div class="notice-icon">📢</div>
