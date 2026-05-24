@@ -13,6 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -1050,6 +1051,213 @@
     .spinner { display: inline-block; width: 18px; height: 18px; border: 3px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* ─── STAMP / COUPON ─── */
+    .stamp-wrap {
+      background: white;
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: 0 2px 10px var(--shadow);
+      margin-bottom: 16px;
+    }
+    .stamp-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .stamp-count {
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 900;
+    }
+    .stamp-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .stamp {
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Material Icons Outlined';
+      font-size: 20px;
+      color: var(--border);
+      transition: all 0.3s;
+    }
+    .stamp.filled {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+    .stamp-next {
+      font-size: 12px;
+      color: var(--text-light);
+      text-align: center;
+    }
+    .coupon-section-title {
+      font-size: 15px;
+      font-weight: 900;
+      color: var(--text-dark);
+      margin: 16px 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .coupon-card {
+      background: white;
+      border-radius: var(--radius);
+      margin-bottom: 10px;
+      box-shadow: 0 2px 10px var(--shadow);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .coupon-card:active { transform: scale(0.98); }
+    .coupon-card.used { opacity: 0.45; cursor: default; }
+    .coupon-inner {
+      display: flex;
+      align-items: stretch;
+    }
+    .coupon-left {
+      background: var(--primary);
+      width: 72px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 0;
+    }
+    .coupon-discount {
+      font-size: 20px;
+      font-weight: 900;
+      color: white;
+      font-family: 'Jua', sans-serif;
+      line-height: 1;
+    }
+    .coupon-won {
+      font-size: 11px;
+      color: rgba(255,255,255,0.8);
+      margin-top: 2px;
+    }
+    .coupon-right {
+      flex: 1;
+      padding: 12px 14px;
+    }
+    .coupon-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+    .coupon-expiry {
+      font-size: 11px;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+    .coupon-tap {
+      font-size: 11px;
+      color: var(--primary);
+      font-weight: 700;
+      margin-top: 6px;
+    }
+    .coupon-used-badge {
+      font-size: 11px;
+      color: #999;
+      margin-top: 6px;
+    }
+    .coupon-pending-badge {
+      font-size: 11px;
+      color: #B07000;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+    .coupon-card.pending { opacity: 0.75; cursor: default; }
+    .coupon-deco {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .coupon-deco::before, .coupon-deco::after {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: var(--warm-white);
+      border-radius: 50%;
+    }
+    .coupon-deco::before { top: -7px; }
+    .coupon-deco::after  { bottom: -7px; }
+    .coupon-empty {
+      text-align: center;
+      padding: 28px 20px;
+      color: var(--text-light);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    /* ─── BARCODE MODAL ─── */
+    #barcode-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: white;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .bc-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .bc-discount {
+      font-size: 48px;
+      font-weight: 900;
+      color: var(--primary);
+      font-family: 'Jua', sans-serif;
+      line-height: 1;
+    }
+    .bc-name { font-size: 16px; color: var(--text-dark); font-weight: 800; margin-top: 6px; }
+    .bc-hint { font-size: 13px; color: var(--text-light); margin-top: 4px; }
+    #barcode-svg { max-width: 100%; margin: 16px 0; }
+    .bc-close {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 50px;
+      background: var(--primary);
+      color: white;
+      font-size: 15px;
+      font-weight: 800;
+      font-family: 'Jua', sans-serif;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .bc-used-btn {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid var(--border);
+      border-radius: 50px;
+      background: white;
+      color: var(--text-light);
+      font-size: 14px;
+      font-weight: 800;
+      font-family: 'Jua', sans-serif;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
     /* ─── ADMIN OVERLAY ─── */
     #admin-overlay {
       display: none;
@@ -1861,7 +2069,7 @@
       <div class="member-hero">
         <div class="member-hero-icon">person</div>
         <h2>사랑하우 회원</h2>
-        <p>전화번호로 포인트를 조회하거나<br>신규 회원으로 가입하실 수 있어요</p>
+        <p>전화번호로 쿠폰 · 스탬프를 조회하거나<br>신규 회원으로 가입하실 수 있어요</p>
       </div>
       <div class="member-body">
         <div class="member-card">
@@ -1904,23 +2112,27 @@
       <div class="member-hero">
         <div class="member-hero-icon">stars</div>
         <h2 id="profile-welcome">안녕하세요!</h2>
-        <p>사랑하우 회원이세요</p>
+        <p id="profile-sub">사랑하우 회원이세요</p>
       </div>
       <div class="member-body">
-        <!-- 신규 가입 환영 쿠폰 -->
-        <div id="welcome-coupon" style="display:none; background:linear-gradient(135deg,#FF8C00,#FFB347); border-radius:var(--radius); padding:18px 20px; margin-bottom:16px; text-align:center; box-shadow:0 4px 16px rgba(255,140,0,0.35);">
-          <div style="font-size:28px; margin-bottom:6px;">🎁</div>
-          <div style="font-size:16px; font-weight:900; color:white; margin-bottom:4px;">가입 축하 쿠폰!</div>
-          <div style="font-size:28px; font-weight:900; color:white; font-family:'Jua',sans-serif;">1,000원</div>
-          <div style="font-size:12px; color:rgba(255,255,255,0.85); margin-top:6px; line-height:1.5;">사랑하우 회원이 되신 것을 환영해요 🥩<br>1,000P가 바로 적립됐어요!</div>
+
+        <!-- 스탬프 -->
+        <div class="stamp-wrap">
+          <div class="stamp-title">
+            <span>방문 스탬프</span>
+            <span class="stamp-count" id="stamp-count-txt">0회 방문</span>
+          </div>
+          <div class="stamp-grid" id="stamp-grid"></div>
+          <div class="stamp-next" id="stamp-next-txt"></div>
         </div>
 
-        <div class="points-display">
-          <div class="points-greeting">내 포인트</div>
-          <div class="points-num" id="profile-points">0</div>
-          <div class="points-unit">P</div>
-          <div class="points-tip">포인트는 매장 방문 시 적립되며<br>현금처럼 사용하실 수 있어요</div>
+        <!-- 쿠폰함 -->
+        <div class="coupon-section-title">
+          <span style="font-family:'Material Icons Outlined';font-size:20px;color:var(--primary);">local_activity</span>
+          내 쿠폰함
         </div>
+        <div id="coupon-list"></div>
+
         <div class="member-card">
           <div class="member-info-row">
             <span class="mir-key">이름</span>
@@ -1977,12 +2189,16 @@
           <div class="admin-stat-lbl">전체 회원</div>
         </div>
         <div class="admin-stat">
-          <div class="admin-stat-num" id="stat-points">0</div>
-          <div class="admin-stat-lbl">총 포인트</div>
+          <div class="admin-stat-num" id="stat-visits">0</div>
+          <div class="admin-stat-lbl">총 방문 횟수</div>
         </div>
         <div class="admin-stat">
           <div class="admin-stat-num" id="stat-new">0</div>
           <div class="admin-stat-lbl">이번 달 신규</div>
+        </div>
+        <div class="admin-stat" style="border:2px solid #F59E0B;border-radius:10px;">
+          <div class="admin-stat-num" id="stat-pending" style="color:#B07000;">0</div>
+          <div class="admin-stat-lbl" style="color:#B07000;font-weight:800;">⏳ 승인 대기</div>
         </div>
       </div>
       <div class="admin-search-wrap">
@@ -1994,6 +2210,22 @@
     </div>
 
   </div><!-- /admin-overlay -->
+
+
+  <!-- ══════════════════════════════════════
+       BARCODE MODAL
+  ══════════════════════════════════════ -->
+  <div id="barcode-modal">
+    <div class="bc-header">
+      <div class="bc-discount" id="bc-discount-text">—원</div>
+      <div class="bc-name" id="bc-name-text">할인 쿠폰</div>
+      <div class="bc-hint">직원에게 바코드를 보여 주세요 📲</div>
+    </div>
+    <svg id="barcode-svg"></svg>
+    <div id="bc-code-text" style="font-size:11px;color:var(--text-light);margin-bottom:12px;letter-spacing:1px;"></div>
+    <button class="bc-used-btn" id="bc-used-btn" onclick="markCouponUsed()">✅ 사용 완료 처리</button>
+    <button class="bc-close" onclick="closeBarcodeModal()">닫기</button>
+  </div>
 
 
 <!-- BOTTOM NAV -->
@@ -2593,16 +2825,37 @@ function lsSaveCustomer(data) {
   all[data.phone] = data;
   localStorage.setItem(LS_KEY, JSON.stringify(all));
 }
-function lsUpdatePoints(phone, delta) {
-  const all = lsGetAll();
-  if (all[phone]) {
-    all[phone].points = Math.max(0, (all[phone].points || 0) + delta);
-    localStorage.setItem(LS_KEY, JSON.stringify(all));
-    return all[phone].points;
-  }
-  return null;
+function lsAllList() {
+  return Object.values(lsGetAll()).sort((a, b) => (b.visits || 0) - (a.visits || 0));
 }
-function lsAllList() { return Object.values(lsGetAll()).sort((a,b) => (b.points||0)-(a.points||0)); }
+
+// ─────────────────────────────────────────
+// COUPON HELPERS
+// ─────────────────────────────────────────
+const STAMP_THRESHOLDS = [
+  { visits: 5,  discount: 3000,  name: '5회 방문 감사 쿠폰',  type: 'visit5'  },
+  { visits: 10, discount: 5000,  name: '10회 방문 감사 쿠폰', type: 'visit10' },
+  { visits: 20, discount: 10000, name: '20회 방문 감사 쿠폰', type: 'visit20' },
+];
+
+function makeWelcomeCoupon() {
+  return {
+    id: 'welcome-' + Date.now(), type: 'welcome', discount: 1000,
+    name: '가입 축하 쿠폰', issuedAt: new Date().toISOString(),
+    usedAt: null,
+    approved: false   // 관리자 승인 전까지 사용 불가
+  };
+}
+
+function getNewCoupons(oldVisits, newVisits) {
+  return STAMP_THRESHOLDS
+    .filter(t => oldVisits < t.visits && newVisits >= t.visits)
+    .map(t => ({
+      id: t.type + '-' + Date.now(),
+      type: t.type, discount: t.discount, name: t.name,
+      issuedAt: new Date().toISOString(), usedAt: null
+    }));
+}
 
 // ─────────────────────────────────────────
 // MEMBER FUNCTIONS
@@ -2643,7 +2896,13 @@ async function doRegister() {
 
   setLoading('btn-register', true);
   try {
-    const data = { name, phone, points: 1000, joinedAt: new Date().toISOString() };
+    const welcome = makeWelcomeCoupon();
+    const data = {
+      name, phone,
+      visits: 0,
+      coupons: [welcome],
+      joinedAt: new Date().toISOString()
+    };
     if (db) {
       await db.collection('customers').doc(phone).set({
         ...data, joinedAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -2658,22 +2917,156 @@ async function doRegister() {
   setLoading('btn-register', false);
 }
 
+let currentCustomerPhone = null; // for markCouponUsed
+let currentCouponId = null;       // for markCouponUsed
+
 function showProfile(data, isNew) {
+  currentCustomerPhone = data.phone;
   document.getElementById('profile-welcome').textContent = data.name + '님, 안녕하세요!';
+  document.getElementById('profile-sub').textContent =
+    isNew ? '🎉 가입을 축하드려요! 1,000원 쿠폰 발급됐어요' : '사랑하우 회원이세요';
   document.getElementById('profile-name').textContent = data.name;
   document.getElementById('profile-phone-disp').textContent =
     data.phone.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3');
-  document.getElementById('profile-points').textContent = (data.points || 0).toLocaleString();
   const joined = data.joinedAt?.toDate ? data.joinedAt.toDate()
     : (typeof data.joinedAt === 'string' ? new Date(data.joinedAt) : (data.joinedAt || new Date()));
   document.getElementById('profile-joined').textContent =
     `${joined.getFullYear()}년 ${joined.getMonth()+1}월 ${joined.getDate()}일`;
-  const coupon = document.getElementById('welcome-coupon');
-  coupon.style.display = isNew ? '' : 'none';
+  renderStamps(data.visits || 0);
+  renderCoupons(data.coupons || []);
   showView('mv-profile');
 }
 
+function renderStamps(visits) {
+  const grid     = document.getElementById('stamp-grid');
+  const countTxt = document.getElementById('stamp-count-txt');
+  const nextTxt  = document.getElementById('stamp-next-txt');
+
+  // Show 10 stamps in 2 rows × 5
+  const cycle  = visits % 10 === 0 && visits > 0 ? 10 : visits % 10;
+  grid.innerHTML = Array.from({ length: 10 }, (_, i) =>
+    `<div class="stamp ${i < cycle ? 'filled' : ''}">
+      ${i < cycle ? 'local_activity' : 'radio_button_unchecked'}
+    </div>`
+  ).join('');
+  countTxt.textContent = `총 ${visits}회 방문`;
+
+  let msg = '';
+  if (visits < 5)       msg = `${5 - visits}번 더 방문하면 3,000원 쿠폰!`;
+  else if (visits < 10) msg = `${10 - visits}번 더 방문하면 5,000원 쿠폰!`;
+  else if (visits < 20) msg = `${20 - visits}번 더 방문하면 10,000원 쿠폰!`;
+  else                  msg = `단골 고객님, 항상 감사해요 ♡`;
+  nextTxt.textContent = msg;
+}
+
+function renderCoupons(coupons) {
+  const el = document.getElementById('coupon-list');
+  if (!coupons || !coupons.length) {
+    el.innerHTML = '<div class="coupon-empty">아직 쿠폰이 없어요<br>방문 스탬프를 모아 보세요 🎁</div>';
+    return;
+  }
+  el.innerHTML = coupons.map(c => {
+    const used    = !!c.usedAt;
+    const pending = c.approved === false;   // 관리자 미승인
+    const dateStr = used
+      ? `사용 완료 · ${new Date(c.usedAt).toLocaleDateString('ko-KR')}`
+      : `발급일 ${new Date(c.issuedAt).toLocaleDateString('ko-KR')}`;
+    const clickable = !used && !pending;
+    let statusBadge;
+    if (used)         statusBadge = '<div class="coupon-used-badge">✔ 사용됨</div>';
+    else if (pending) statusBadge = '<div class="coupon-pending-badge">⏳ 매장 방문 후 활성화돼요</div>';
+    else              statusBadge = '<div class="coupon-tap">탭하면 바코드가 열려요 →</div>';
+    return `
+      <div class="coupon-card${used ? ' used' : ''}${pending ? ' pending' : ''}"
+           onclick="${clickable ? `showBarcodeModal('${c.id}')` : ''}">
+        <div class="coupon-inner">
+          <div class="coupon-left" style="${pending ? 'background:#999' : ''}">
+            <div class="coupon-discount">${(c.discount / 1000).toFixed(0)}K</div>
+            <div class="coupon-won">원 할인</div>
+          </div>
+          <div class="coupon-deco"></div>
+          <div class="coupon-right">
+            <div class="coupon-name">${c.name}</div>
+            <div class="coupon-expiry">${dateStr}</div>
+            ${statusBadge}
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function showBarcodeModal(couponId) {
+  const all       = lsGetAll();
+  const customer  = all[currentCustomerPhone];
+  if (!customer) return;
+  const coupon    = (customer.coupons || []).find(c => c.id === couponId);
+  if (!coupon || coupon.usedAt || coupon.approved === false) return;
+
+  currentCouponId = couponId;
+
+  document.getElementById('bc-discount-text').textContent =
+    coupon.discount.toLocaleString() + '원 할인';
+  document.getElementById('bc-name-text').textContent = coupon.name;
+
+  // Barcode content: store code + phone + coupon id
+  const barcodeVal = 'SRH-' + currentCustomerPhone + '-' + coupon.discount + '-' + couponId.split('-').pop();
+  document.getElementById('bc-code-text').textContent = barcodeVal;
+
+  try {
+    JsBarcode('#barcode-svg', barcodeVal, {
+      format: 'CODE128', lineColor: '#1A0A00',
+      width: 2, height: 80, displayValue: false
+    });
+  } catch(e) { console.warn('barcode error', e); }
+
+  const modal = document.getElementById('barcode-modal');
+  modal.style.display = 'flex';
+}
+
+function closeBarcodeModal() {
+  document.getElementById('barcode-modal').style.display = 'none';
+  currentCouponId = null;
+}
+
+async function markCouponUsed() {
+  if (!currentCustomerPhone || !currentCouponId) return;
+  if (!confirm('이 쿠폰을 사용 처리할까요?')) return;
+
+  try {
+    if (db) {
+      const ref  = db.collection('customers').doc(currentCustomerPhone);
+      const snap = await ref.get();
+      if (snap.exists) {
+        const coupons = (snap.data().coupons || []).map(c =>
+          c.id === currentCouponId ? { ...c, usedAt: new Date().toISOString() } : c
+        );
+        await ref.update({ coupons });
+      }
+    } else {
+      const all = lsGetAll();
+      if (all[currentCustomerPhone]) {
+        all[currentCustomerPhone].coupons =
+          (all[currentCustomerPhone].coupons || []).map(c =>
+            c.id === currentCouponId ? { ...c, usedAt: new Date().toISOString() } : c
+          );
+        localStorage.setItem(LS_KEY, JSON.stringify(all));
+      }
+    }
+    // Re-render profile before clearing state
+    const savedPhone = currentCustomerPhone;
+    closeBarcodeModal();
+    const updated = db
+      ? (await db.collection('customers').doc(savedPhone).get()).data()
+      : lsGetCustomer(savedPhone);
+    if (updated) showProfile(updated);
+    alert('쿠폰이 사용 처리됐어요!');
+  } catch(e) {
+    alert('처리 중 오류가 발생했어요');
+  }
+}
+
 function doLogout() {
+  currentCustomerPhone = null;
   document.getElementById('inp-lookup-phone').value = '';
   showView('mv-lookup');
 }
@@ -2708,8 +3101,9 @@ async function doAdminLogin() {
 async function loadAdminDashboard() {
   try {
     if (db) {
-      const snap = await db.collection('customers').orderBy('points', 'desc').get();
-      allCustomers = snap.docs.map(d => d.data());
+      const snap = await db.collection('customers').get();
+      allCustomers = snap.docs.map(d => d.data())
+        .sort((a, b) => (b.visits || 0) - (a.visits || 0));
     } else {
       allCustomers = lsAllList();
     }
@@ -2721,18 +3115,23 @@ async function loadAdminDashboard() {
   }
 }
 
+function hasPendingCoupon(customer) {
+  return (customer.coupons || []).some(c => c.approved === false && !c.usedAt);
+}
+
 function updateAdminStats() {
   const now = new Date();
-  const thisMonth = new Set(
-    allCustomers.filter(c => {
-      const d = c.joinedAt?.toDate ? c.joinedAt.toDate() : null;
-      return d && d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
-    }).map(c => c.phone)
-  );
-  document.getElementById('stat-total').textContent = allCustomers.length;
-  document.getElementById('stat-points').textContent =
-    allCustomers.reduce((s, c) => s + (c.points||0), 0).toLocaleString();
-  document.getElementById('stat-new').textContent = thisMonth.size;
+  const thisMonthCount = allCustomers.filter(c => {
+    const raw = c.joinedAt?.toDate ? c.joinedAt.toDate()
+      : (typeof c.joinedAt === 'string' ? new Date(c.joinedAt) : null);
+    return raw && raw.getFullYear() === now.getFullYear() && raw.getMonth() === now.getMonth();
+  }).length;
+  const pendingCount = allCustomers.filter(hasPendingCoupon).length;
+  document.getElementById('stat-total').textContent   = allCustomers.length;
+  document.getElementById('stat-visits').textContent  =
+    allCustomers.reduce((s, c) => s + (c.visits || 0), 0).toLocaleString();
+  document.getElementById('stat-new').textContent     = thisMonthCount;
+  document.getElementById('stat-pending').textContent = pendingCount;
 }
 
 function renderAdminList(list) {
@@ -2741,24 +3140,33 @@ function renderAdminList(list) {
     el.innerHTML = '<div class="admin-empty">회원이 없어요</div>';
     return;
   }
-  el.innerHTML = list.map(c => `
+  el.innerHTML = list.map(c => {
+    const activeCoupons = (c.coupons || []).filter(x => !x.usedAt).length;
+    return `
     <div class="admin-customer-card">
-      <div class="accard-avatar">${c.name.slice(0,1)}</div>
+      <div class="accard-avatar" style="${hasPendingCoupon(c) ? 'background:#F59E0B' : ''}">${c.name.slice(0,1)}</div>
       <div class="accard-info">
-        <div class="accard-name">${c.name}</div>
+        <div class="accard-name">${c.name}${hasPendingCoupon(c) ? ' <span style="font-size:10px;background:#FEF3C7;color:#B07000;padding:2px 6px;border-radius:10px;font-weight:800;">⏳ 승인 대기</span>' : ''}</div>
         <div class="accard-phone">${c.phone.replace(/(\d{3})(\d{3,4})(\d{4})/,'$1-$2-$3')}</div>
         <div class="admin-point-btns">
-          <button class="apbtn plus"  onclick="adjustPoints('${c.phone}', 100)">+100P</button>
-          <button class="apbtn plus"  onclick="adjustPoints('${c.phone}', 500)">+500P</button>
-          <button class="apbtn minus" onclick="adjustPoints('${c.phone}',-100)">−100P</button>
+          ${hasPendingCoupon(c) ? `
+          <button class="apbtn plus" style="background:#FEF3C7;color:#B07000;font-weight:800;border:1px solid #F59E0B;"
+                  onclick="approveWelcome('${c.phone}')">
+            <span style="font-family:'Material Icons Outlined';font-size:14px;vertical-align:middle;">verified</span>
+            가입 승인
+          </button>` : ''}
+          <button class="apbtn plus" onclick="checkVisit('${c.phone}')">
+            <span style="font-family:'Material Icons Outlined';font-size:14px;vertical-align:middle;">check_circle</span>
+            방문 체크
+          </button>
         </div>
       </div>
       <div class="accard-points">
-        <div class="accard-pts-num" id="apts-${c.phone}">${(c.points||0).toLocaleString()}</div>
-        <div class="accard-pts-lbl">포인트</div>
+        <div class="accard-pts-num" id="apts-${c.phone}">${c.visits || 0}</div>
+        <div class="accard-pts-lbl">방문 · 쿠폰 ${activeCoupons}장</div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 function filterCustomers() {
@@ -2769,24 +3177,92 @@ function filterCustomers() {
   renderAdminList(filtered);
 }
 
-async function adjustPoints(phone, delta) {
+async function checkVisit(phone) {
+  if (!confirm(`${phone} 고객 방문을 확인하고 스탬프를 추가할까요?`)) return;
   try {
+    let customer;
     if (db) {
-      await db.collection('customers').doc(phone).update({
-        points: firebase.firestore.FieldValue.increment(delta)
-      });
+      const ref  = db.collection('customers').doc(phone);
+      const snap = await ref.get();
+      if (!snap.exists) { alert('고객을 찾을 수 없어요'); return; }
+      customer = snap.data();
     } else {
-      lsUpdatePoints(phone, delta);
+      customer = lsGetCustomer(phone);
+      if (!customer) { alert('고객을 찾을 수 없어요'); return; }
     }
-    const c = allCustomers.find(x => x.phone === phone);
-    if (c) {
-      c.points = Math.max(0, (c.points || 0) + delta);
-      const el = document.getElementById('apts-' + phone);
-      if (el) el.textContent = c.points.toLocaleString();
-      updateAdminStats();
+
+    const oldVisits = customer.visits || 0;
+    const newVisits = oldVisits + 1;
+    const newCoupons = getNewCoupons(oldVisits, newVisits);
+    const updatedCoupons = [...(customer.coupons || []), ...newCoupons];
+    const updateData = { visits: newVisits, coupons: updatedCoupons };
+
+    if (db) {
+      await db.collection('customers').doc(phone).update(updateData);
+    } else {
+      const all = lsGetAll();
+      all[phone] = { ...all[phone], ...updateData };
+      localStorage.setItem(LS_KEY, JSON.stringify(all));
     }
+
+    // Update local cache
+    const idx = allCustomers.findIndex(x => x.phone === phone);
+    if (idx >= 0) {
+      allCustomers[idx].visits  = newVisits;
+      allCustomers[idx].coupons = updatedCoupons;
+    }
+    const el = document.getElementById('apts-' + phone);
+    if (el) el.textContent = newVisits;
+    updateAdminStats();
+
+    let msg = `✅ 스탬프 추가! (총 ${newVisits}회)`;
+    if (newCoupons.length) {
+      msg += '\n🎁 ' + newCoupons.map(c => c.name + ' 발급!').join('\n🎁 ');
+    }
+    alert(msg);
   } catch(e) {
-    alert('포인트 수정에 실패했어요');
+    alert('처리 중 오류가 발생했어요');
+  }
+}
+
+async function approveWelcome(phone) {
+  const c = allCustomers.find(x => x.phone === phone);
+  if (!c) return;
+  const name = c.name;
+  if (!confirm(`${name} 님의 가입을 승인하고 1,000원 쿠폰을 활성화할까요?`)) return;
+
+  try {
+    const activateCoupons = (coupons) =>
+      coupons.map(cp => cp.approved === false ? { ...cp, approved: true } : cp);
+
+    if (db) {
+      const ref  = db.collection('customers').doc(phone);
+      const snap = await ref.get();
+      if (snap.exists) {
+        await ref.update({ coupons: activateCoupons(snap.data().coupons || []) });
+      }
+    } else {
+      const all = lsGetAll();
+      if (all[phone]) {
+        all[phone].coupons = activateCoupons(all[phone].coupons || []);
+        localStorage.setItem(LS_KEY, JSON.stringify(all));
+      }
+    }
+
+    // Update local cache and re-render
+    c.coupons = activateCoupons(c.coupons || []);
+    updateAdminStats();
+    renderAdminList(
+      document.getElementById('admin-search-input').value.trim()
+        ? allCustomers.filter(x => {
+            const q = document.getElementById('admin-search-input').value.toLowerCase();
+            return x.name.includes(q) || x.phone.includes(q.replace(/-/g,''));
+          })
+        : allCustomers
+    );
+    alert(`✅ ${name} 님 가입 승인 완료! 1,000원 쿠폰이 활성화됐어요.`);
+  } catch(e) {
+    alert('승인 처리 중 오류가 발생했어요');
   }
 }
 </script>
