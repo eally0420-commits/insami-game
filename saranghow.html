@@ -1172,6 +1172,13 @@
       color: #999;
       margin-top: 6px;
     }
+    .coupon-pending-badge {
+      font-size: 11px;
+      color: #B07000;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+    .coupon-card.pending { opacity: 0.75; cursor: default; }
     .coupon-deco {
       display: flex;
       align-items: center;
@@ -2189,6 +2196,10 @@
           <div class="admin-stat-num" id="stat-new">0</div>
           <div class="admin-stat-lbl">이번 달 신규</div>
         </div>
+        <div class="admin-stat" style="border:2px solid #F59E0B;border-radius:10px;">
+          <div class="admin-stat-num" id="stat-pending" style="color:#B07000;">0</div>
+          <div class="admin-stat-lbl" style="color:#B07000;font-weight:800;">⏳ 승인 대기</div>
+        </div>
       </div>
       <div class="admin-search-wrap">
         <input class="admin-search" id="admin-search-input" placeholder="🔍  이름 또는 전화번호 검색" oninput="filterCustomers()" />
@@ -2828,8 +2839,12 @@ const STAMP_THRESHOLDS = [
 ];
 
 function makeWelcomeCoupon() {
-  return { id: 'welcome-' + Date.now(), type: 'welcome', discount: 1000,
-           name: '가입 축하 쿠폰', issuedAt: new Date().toISOString(), usedAt: null };
+  return {
+    id: 'welcome-' + Date.now(), type: 'welcome', discount: 1000,
+    name: '가입 축하 쿠폰', issuedAt: new Date().toISOString(),
+    usedAt: null,
+    approved: false   // 관리자 승인 전까지 사용 불가
+  };
 }
 
 function getNewCoupons(oldVisits, newVisits) {
@@ -2951,15 +2966,21 @@ function renderCoupons(coupons) {
     return;
   }
   el.innerHTML = coupons.map(c => {
-    const used = !!c.usedAt;
+    const used    = !!c.usedAt;
+    const pending = c.approved === false;   // 관리자 미승인
     const dateStr = used
       ? `사용 완료 · ${new Date(c.usedAt).toLocaleDateString('ko-KR')}`
       : `발급일 ${new Date(c.issuedAt).toLocaleDateString('ko-KR')}`;
+    const clickable = !used && !pending;
+    let statusBadge;
+    if (used)         statusBadge = '<div class="coupon-used-badge">✔ 사용됨</div>';
+    else if (pending) statusBadge = '<div class="coupon-pending-badge">⏳ 매장 방문 후 활성화돼요</div>';
+    else              statusBadge = '<div class="coupon-tap">탭하면 바코드가 열려요 →</div>';
     return `
-      <div class="coupon-card${used ? ' used' : ''}"
-           onclick="${used ? '' : `showBarcodeModal('${c.id}')`}">
+      <div class="coupon-card${used ? ' used' : ''}${pending ? ' pending' : ''}"
+           onclick="${clickable ? `showBarcodeModal('${c.id}')` : ''}">
         <div class="coupon-inner">
-          <div class="coupon-left">
+          <div class="coupon-left" style="${pending ? 'background:#999' : ''}">
             <div class="coupon-discount">${(c.discount / 1000).toFixed(0)}K</div>
             <div class="coupon-won">원 할인</div>
           </div>
@@ -2967,9 +2988,7 @@ function renderCoupons(coupons) {
           <div class="coupon-right">
             <div class="coupon-name">${c.name}</div>
             <div class="coupon-expiry">${dateStr}</div>
-            ${used
-              ? '<div class="coupon-used-badge">✔ 사용됨</div>'
-              : '<div class="coupon-tap">탭하면 바코드가 열려요 →</div>'}
+            ${statusBadge}
           </div>
         </div>
       </div>`;
@@ -2981,7 +3000,7 @@ function showBarcodeModal(couponId) {
   const customer  = all[currentCustomerPhone];
   if (!customer) return;
   const coupon    = (customer.coupons || []).find(c => c.id === couponId);
-  if (!coupon || coupon.usedAt) return;
+  if (!coupon || coupon.usedAt || coupon.approved === false) return;
 
   currentCouponId = couponId;
 
@@ -3096,6 +3115,10 @@ async function loadAdminDashboard() {
   }
 }
 
+function hasPendingCoupon(customer) {
+  return (customer.coupons || []).some(c => c.approved === false && !c.usedAt);
+}
+
 function updateAdminStats() {
   const now = new Date();
   const thisMonthCount = allCustomers.filter(c => {
@@ -3103,10 +3126,12 @@ function updateAdminStats() {
       : (typeof c.joinedAt === 'string' ? new Date(c.joinedAt) : null);
     return raw && raw.getFullYear() === now.getFullYear() && raw.getMonth() === now.getMonth();
   }).length;
-  document.getElementById('stat-total').textContent  = allCustomers.length;
-  document.getElementById('stat-visits').textContent =
+  const pendingCount = allCustomers.filter(hasPendingCoupon).length;
+  document.getElementById('stat-total').textContent   = allCustomers.length;
+  document.getElementById('stat-visits').textContent  =
     allCustomers.reduce((s, c) => s + (c.visits || 0), 0).toLocaleString();
-  document.getElementById('stat-new').textContent    = thisMonthCount;
+  document.getElementById('stat-new').textContent     = thisMonthCount;
+  document.getElementById('stat-pending').textContent = pendingCount;
 }
 
 function renderAdminList(list) {
@@ -3119,11 +3144,17 @@ function renderAdminList(list) {
     const activeCoupons = (c.coupons || []).filter(x => !x.usedAt).length;
     return `
     <div class="admin-customer-card">
-      <div class="accard-avatar">${c.name.slice(0,1)}</div>
+      <div class="accard-avatar" style="${hasPendingCoupon(c) ? 'background:#F59E0B' : ''}">${c.name.slice(0,1)}</div>
       <div class="accard-info">
-        <div class="accard-name">${c.name}</div>
+        <div class="accard-name">${c.name}${hasPendingCoupon(c) ? ' <span style="font-size:10px;background:#FEF3C7;color:#B07000;padding:2px 6px;border-radius:10px;font-weight:800;">⏳ 승인 대기</span>' : ''}</div>
         <div class="accard-phone">${c.phone.replace(/(\d{3})(\d{3,4})(\d{4})/,'$1-$2-$3')}</div>
         <div class="admin-point-btns">
+          ${hasPendingCoupon(c) ? `
+          <button class="apbtn plus" style="background:#FEF3C7;color:#B07000;font-weight:800;border:1px solid #F59E0B;"
+                  onclick="approveWelcome('${c.phone}')">
+            <span style="font-family:'Material Icons Outlined';font-size:14px;vertical-align:middle;">verified</span>
+            가입 승인
+          </button>` : ''}
           <button class="apbtn plus" onclick="checkVisit('${c.phone}')">
             <span style="font-family:'Material Icons Outlined';font-size:14px;vertical-align:middle;">check_circle</span>
             방문 체크
@@ -3191,6 +3222,47 @@ async function checkVisit(phone) {
     alert(msg);
   } catch(e) {
     alert('처리 중 오류가 발생했어요');
+  }
+}
+
+async function approveWelcome(phone) {
+  const c = allCustomers.find(x => x.phone === phone);
+  if (!c) return;
+  const name = c.name;
+  if (!confirm(`${name} 님의 가입을 승인하고 1,000원 쿠폰을 활성화할까요?`)) return;
+
+  try {
+    const activateCoupons = (coupons) =>
+      coupons.map(cp => cp.approved === false ? { ...cp, approved: true } : cp);
+
+    if (db) {
+      const ref  = db.collection('customers').doc(phone);
+      const snap = await ref.get();
+      if (snap.exists) {
+        await ref.update({ coupons: activateCoupons(snap.data().coupons || []) });
+      }
+    } else {
+      const all = lsGetAll();
+      if (all[phone]) {
+        all[phone].coupons = activateCoupons(all[phone].coupons || []);
+        localStorage.setItem(LS_KEY, JSON.stringify(all));
+      }
+    }
+
+    // Update local cache and re-render
+    c.coupons = activateCoupons(c.coupons || []);
+    updateAdminStats();
+    renderAdminList(
+      document.getElementById('admin-search-input').value.trim()
+        ? allCustomers.filter(x => {
+            const q = document.getElementById('admin-search-input').value.toLowerCase();
+            return x.name.includes(q) || x.phone.includes(q.replace(/-/g,''));
+          })
+        : allCustomers
+    );
+    alert(`✅ ${name} 님 가입 승인 완료! 1,000원 쿠폰이 활성화됐어요.`);
+  } catch(e) {
+    alert('승인 처리 중 오류가 발생했어요');
   }
 }
 </script>
