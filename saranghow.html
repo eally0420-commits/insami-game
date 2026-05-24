@@ -12,6 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jua&family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -129,14 +130,19 @@
       gap: 4px;
     }
     .nav-item:active { background: var(--warm-white); }
-    .nav-icon { font-size: 22px; line-height: 1; }
+    .nav-icon {
+      font-size: 24px;
+      line-height: 1;
+      color: #AAAAAA;
+      font-family: 'Material Icons Outlined';
+    }
     .nav-label {
       font-size: 11px;
       font-weight: 700;
       color: var(--text-light);
       letter-spacing: 0.3px;
     }
-    .nav-item.active .nav-icon { filter: none; }
+    .nav-item.active .nav-icon { color: var(--primary); }
     .nav-item.active .nav-label { color: var(--primary); }
     .nav-item.active .nav-dot {
       width: 4px; height: 4px;
@@ -369,7 +375,13 @@
       align-items: flex-start;
       gap: 10px;
     }
-    .notice-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+    .notice-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      font-family: 'Material Icons Outlined';
+      color: var(--primary);
+    }
     .notice-title { font-size: 13px; font-weight: 700; color: var(--primary); }
     .notice-text { font-size: 12px; color: var(--text-mid); margin-top: 3px; line-height: 1.5; }
 
@@ -796,7 +808,12 @@
       align-items: center;
       gap: 10px;
     }
-    .info-card-header .ic { font-size: 22px; }
+    .info-card-header .ic {
+      font-size: 24px;
+      font-family: 'Material Icons Outlined';
+      color: var(--primary);
+      line-height: 1;
+    }
     .info-card-header .title { font-size: 14px; font-weight: 800; color: var(--primary); }
     .info-card-body { padding: 14px 16px; }
     .info-line {
@@ -943,7 +960,12 @@
       text-align: center;
       color: var(--cream-brand);
     }
-    .member-hero-icon { font-size: 44px; margin-bottom: 8px; }
+    .member-hero-icon {
+      font-size: 48px;
+      margin-bottom: 8px;
+      font-family: 'Material Icons Outlined';
+      line-height: 1;
+    }
     .member-hero h2 { font-size: 20px; font-weight: 900; margin: 0 0 6px; }
     .member-hero p { font-size: 13px; opacity: 0.8; margin: 0; line-height: 1.5; }
     .member-body { padding: 20px 16px; }
@@ -1163,7 +1185,13 @@
       gap: 10px;
       box-shadow: 0 2px 8px var(--shadow);
     }
-    .bs-icon { font-size: 26px; flex-shrink: 0; line-height: 1; }
+    .bs-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+      line-height: 1;
+      font-family: 'Material Icons Outlined';
+      color: var(--primary);
+    }
     .bs-label { font-size: 13px; font-weight: 800; color: var(--text-dark); }
     .bs-sub { font-size: 11px; color: var(--text-light); margin-top: 3px; line-height: 1.4; }
 
@@ -1206,7 +1234,11 @@
       align-items: center;
       gap: 8px;
     }
-    .trust-ic { font-size: 20px; }
+    .trust-ic {
+      font-size: 26px;
+      font-family: 'Material Icons Outlined';
+      line-height: 1;
+    }
     .trust-text { font-size: 12px; color: var(--cream-brand); font-weight: 700; line-height: 1.4; }
 
     /* ─── TODAY'S EVENT ─── */
@@ -1419,28 +1451,28 @@
       <div class="brand-story-title">사랑하우 이야기</div>
       <div class="brand-story-grid">
         <div class="bs-item">
-          <div class="bs-icon">👨‍👩‍👧</div>
+          <div class="bs-icon">people</div>
           <div>
             <div class="bs-label">가족이 운영해요</div>
             <div class="bs-sub">정성을 담아 직접 운영하는 가족 정육점</div>
           </div>
         </div>
         <div class="bs-item">
-          <div class="bs-icon">🌅</div>
+          <div class="bs-icon">wb_sunny</div>
           <div>
             <div class="bs-label">매일 새벽 직입</div>
             <div class="bs-sub">냉동 없이 당일 신선 입고만 취급해요</div>
           </div>
         </div>
         <div class="bs-item">
-          <div class="bs-icon">🔪</div>
+          <div class="bs-icon">workspace_premium</div>
           <div>
             <div class="bs-label">장인이 직접 손질</div>
             <div class="bs-sub">오랜 경력의 전문가가 정성껏 정형</div>
           </div>
         </div>
         <div class="bs-item">
-          <div class="bs-icon">🏅</div>
+          <div class="bs-icon">grade</div>
           <div>
             <div class="bs-label">등급 보장</div>
             <div class="bs-sub">1++ · 1+ 한우만 엄선해서 들여와요</div>
@@ -1476,7 +1508,7 @@
     </div>
 
     <div class="notice-banner">
-      <div class="notice-icon">📢</div>
+      <div class="notice-icon">campaign</div>
       <div>
         <div class="notice-title">픽업 서비스 안내</div>
         <div class="notice-text">주문 후 매장에서 직접 수령하시면 신선한 상태로 받으실 수 있어요. 픽업 1시간 전까지 주문이 가능합니다.</div>
@@ -1662,7 +1694,7 @@
 
       <div class="info-card">
         <div class="info-card-header">
-          <div class="ic">📍</div>
+          <div class="ic">location_on</div>
           <div class="title">매장 위치</div>
         </div>
         <div class="info-card-body">
@@ -1687,7 +1719,7 @@
 
       <div class="info-card">
         <div class="info-card-header">
-          <div class="ic">🕐</div>
+          <div class="ic">schedule</div>
           <div class="title">영업 시간</div>
         </div>
         <div class="info-card-body" id="hours-card"></div>
@@ -1695,7 +1727,7 @@
 
       <div class="info-card">
         <div class="info-card-header">
-          <div class="ic">🥩</div>
+          <div class="ic">storefront</div>
           <div class="title">매장 소개</div>
         </div>
         <div class="info-card-body">
@@ -1724,19 +1756,19 @@
       <div class="trust-title">사랑하우의 약속</div>
       <div class="trust-grid">
         <div class="trust-item">
-          <div class="trust-ic">🌅</div>
+          <div class="trust-ic">wb_sunny</div>
           <div class="trust-text">매일 새벽<br>당일 직입</div>
         </div>
         <div class="trust-item">
-          <div class="trust-ic">🏅</div>
+          <div class="trust-ic">grade</div>
           <div class="trust-text">1++ · 1+<br>등급 보장</div>
         </div>
         <div class="trust-item">
-          <div class="trust-ic">🔪</div>
+          <div class="trust-ic">workspace_premium</div>
           <div class="trust-text">장인이 직접<br>손질·정형</div>
         </div>
         <div class="trust-item">
-          <div class="trust-ic">🎁</div>
+          <div class="trust-ic">card_giftcard</div>
           <div class="trust-text">선물 포장<br>전문</div>
         </div>
       </div>
@@ -1816,7 +1848,7 @@
     <!-- VIEW: 전화번호 입력 -->
     <div id="mv-lookup">
       <div class="member-hero">
-        <div class="member-hero-icon">👤</div>
+        <div class="member-hero-icon">person</div>
         <h2>사랑하우 회원</h2>
         <p>전화번호로 포인트를 조회하거나<br>신규 회원으로 가입하실 수 있어요</p>
       </div>
@@ -1839,7 +1871,7 @@
     <!-- VIEW: 신규 가입 -->
     <div id="mv-register" style="display:none;">
       <div class="member-hero">
-        <div class="member-hero-icon">👋</div>
+        <div class="member-hero-icon">person_add</div>
         <h2>처음 오셨군요!</h2>
         <p>이름을 입력하시면<br>회원으로 바로 가입돼요</p>
       </div>
@@ -1859,7 +1891,7 @@
     <!-- VIEW: 회원 프로필 -->
     <div id="mv-profile" style="display:none;">
       <div class="member-hero">
-        <div class="member-hero-icon">⭐</div>
+        <div class="member-hero-icon">stars</div>
         <h2 id="profile-welcome">안녕하세요!</h2>
         <p>사랑하우 회원이세요</p>
       </div>
@@ -1909,7 +1941,7 @@
     <!-- 로그인 화면 -->
     <div id="admin-login-view">
       <div class="admin-header">
-        <div class="admin-title">🔒 관리자 로그인</div>
+        <div class="admin-title"><span style="font-family:'Material Icons Outlined';vertical-align:middle;font-size:20px;">lock</span> 관리자 로그인</div>
         <button class="admin-close" onclick="closeAdmin()">닫기</button>
       </div>
       <div style="padding:24px 16px;">
@@ -1925,7 +1957,7 @@
     <!-- 대시보드 -->
     <div id="admin-dashboard-view" style="display:none;">
       <div class="admin-header">
-        <div class="admin-title">👑 사랑하우 관리자</div>
+        <div class="admin-title"><span style="font-family:'Material Icons Outlined';vertical-align:middle;font-size:20px;">manage_accounts</span> 사랑하우 관리자</div>
         <button class="admin-close" onclick="closeAdmin()">나가기</button>
       </div>
       <div class="admin-stats">
@@ -1956,24 +1988,24 @@
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <button class="nav-item" id="nav-member" onclick="goPage('member')">
-    <span class="nav-icon">👤</span>
+    <span class="nav-icon">person</span>
     <span class="nav-label">회원</span>
   </button>
   <button class="nav-item" id="nav-order" onclick="goPage('order')">
-    <span class="nav-icon">🛍️</span>
+    <span class="nav-icon">shopping_bag</span>
     <span class="nav-label">픽업주문</span>
   </button>
   <button class="nav-item active" id="nav-home" onclick="goPage('home')">
-    <span class="nav-icon">🏠</span>
+    <span class="nav-icon">home</span>
     <span class="nav-label">홈</span>
     <div class="nav-dot"></div>
   </button>
   <button class="nav-item" id="nav-info" onclick="goPage('info')">
-    <span class="nav-icon">🏪</span>
+    <span class="nav-icon">store</span>
     <span class="nav-label">매장정보</span>
   </button>
   <button class="nav-item" id="nav-links" onclick="goPage('links')">
-    <span class="nav-icon">💬</span>
+    <span class="nav-icon">forum</span>
     <span class="nav-label">채널</span>
   </button>
 </nav>
