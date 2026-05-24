@@ -2203,7 +2203,12 @@
         </div>
       </div>
       <div class="admin-search-wrap">
-        <input class="admin-search" id="admin-search-input" placeholder="🔍  이름 또는 전화번호 검색" oninput="filterCustomers()" />
+        <input class="admin-search" id="admin-search-input" type="tel"
+               placeholder="🔍  이름 또는 전화번호 뒷자리 입력"
+               oninput="filterCustomers()" />
+        <div style="font-size:11px;color:var(--text-light);margin-top:6px;padding:0 4px;">
+          예) 홍길동 · 5678 · 010-1234
+        </div>
       </div>
       <div class="admin-list" id="admin-customer-list">
         <div class="admin-empty">회원을 불러오는 중...</div>
@@ -2217,15 +2222,34 @@
        BARCODE MODAL
   ══════════════════════════════════════ -->
   <div id="barcode-modal">
-    <div class="bc-header">
-      <div class="bc-discount" id="bc-discount-text">—원</div>
-      <div class="bc-name" id="bc-name-text">할인 쿠폰</div>
-      <div class="bc-hint">직원에게 바코드를 보여 주세요 📲</div>
+
+    <!-- 기본 바코드 화면 -->
+    <div id="bc-main">
+      <div class="bc-header">
+        <div class="bc-discount" id="bc-discount-text">—원</div>
+        <div class="bc-name" id="bc-name-text">할인 쿠폰</div>
+        <div class="bc-hint">직원에게 바코드를 보여 주세요 📲</div>
+      </div>
+      <svg id="barcode-svg"></svg>
+      <div id="bc-code-text" style="font-size:11px;color:var(--text-light);margin-bottom:12px;letter-spacing:1px;"></div>
+      <button class="bc-used-btn" onclick="showUsedConfirm()">✅ 사용 완료 처리</button>
+      <button class="bc-close" onclick="closeBarcodeModal()">닫기</button>
     </div>
-    <svg id="barcode-svg"></svg>
-    <div id="bc-code-text" style="font-size:11px;color:var(--text-light);margin-bottom:12px;letter-spacing:1px;"></div>
-    <button class="bc-used-btn" id="bc-used-btn" onclick="markCouponUsed()">✅ 사용 완료 처리</button>
-    <button class="bc-close" onclick="closeBarcodeModal()">닫기</button>
+
+    <!-- 관리자 비밀번호 확인 화면 -->
+    <div id="bc-admin-confirm" style="display:none;width:100%;text-align:center;">
+      <div style="font-size:36px;margin-bottom:12px;">🔐</div>
+      <div style="font-size:17px;font-weight:900;color:var(--text-dark);margin-bottom:6px;">관리자 확인</div>
+      <div style="font-size:13px;color:var(--text-light);margin-bottom:20px;">사용 완료 처리를 위해<br>관리자 비밀번호를 입력해 주세요</div>
+      <input id="bc-admin-pw" type="password" class="member-input"
+             placeholder="비밀번호 입력"
+             style="margin-bottom:8px;"
+             onkeydown="if(event.key==='Enter')confirmUsed()" />
+      <div class="member-err" id="bc-pw-err" style="display:none;margin-bottom:8px;">비밀번호가 틀렸어요</div>
+      <button class="bc-close" onclick="confirmUsed()" style="margin-bottom:10px;">확인</button>
+      <button class="bc-used-btn" onclick="cancelUsedConfirm()">취소</button>
+    </div>
+
   </div>
 
 
@@ -3026,7 +3050,31 @@ function showBarcodeModal(couponId) {
 
 function closeBarcodeModal() {
   document.getElementById('barcode-modal').style.display = 'none';
+  document.getElementById('bc-main').style.display = '';
+  document.getElementById('bc-admin-confirm').style.display = 'none';
+  document.getElementById('bc-admin-pw').value = '';
+  showErr('bc-pw-err', '');
   currentCouponId = null;
+}
+
+function showUsedConfirm() {
+  document.getElementById('bc-main').style.display = 'none';
+  document.getElementById('bc-admin-confirm').style.display = '';
+  setTimeout(() => document.getElementById('bc-admin-pw').focus(), 100);
+}
+
+function cancelUsedConfirm() {
+  document.getElementById('bc-admin-confirm').style.display = 'none';
+  document.getElementById('bc-main').style.display = '';
+  document.getElementById('bc-admin-pw').value = '';
+  showErr('bc-pw-err', '');
+}
+
+async function confirmUsed() {
+  const pw = document.getElementById('bc-admin-pw').value;
+  if (pw !== ADMIN_PASSWORD) { showErr('bc-pw-err', '비밀번호가 틀렸어요'); return; }
+  showErr('bc-pw-err', '');
+  await markCouponUsed();
 }
 
 async function markCouponUsed() {
@@ -3171,10 +3219,14 @@ function renderAdminList(list) {
 }
 
 function filterCustomers() {
-  const q = document.getElementById('admin-search-input').value.toLowerCase();
-  const filtered = q
-    ? allCustomers.filter(c => c.name.includes(q) || c.phone.includes(q.replace(/-/g,'')))
-    : allCustomers;
+  const raw = document.getElementById('admin-search-input').value;
+  const q   = raw.replace(/-/g, '').toLowerCase().trim();
+  if (!q) { renderAdminList(allCustomers); return; }
+  const filtered = allCustomers.filter(c =>
+    c.name.includes(q) || c.phone.includes(q)
+  );
+  // 끝자리 일치 고객을 맨 위로
+  filtered.sort((a, b) => (b.phone.endsWith(q) ? 1 : 0) - (a.phone.endsWith(q) ? 1 : 0));
   renderAdminList(filtered);
 }
 
